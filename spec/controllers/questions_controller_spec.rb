@@ -6,8 +6,8 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #index' do
     let(:questions){ FactoryBot.create_list(:question, 3) }
 
-    before { get :index }
     before { login(user) }
+    before { get :index }
 
     it 'returns an array of all questions' do
       expect(assigns(:questions)).to match_array questions
@@ -19,10 +19,9 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    before { login(user) }
-
     let(:question){ FactoryBot.create(:question) }
 
+    before { login(user) }
     before { get :show, params: { id: question }}
 
     it 'it assigns requested question to @question variable' do
@@ -36,7 +35,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #new' do
    before { login(user) }
-
    before { get :new }
 
    it 'it assigns new question to variable @question' do

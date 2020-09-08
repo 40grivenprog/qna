@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :find_question, only: %i[index new create]
   before_action :find_answer, only: %i[show]
 
@@ -18,7 +19,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @answer
     else
-      render :new
+      render 'questions/show'
     end
   end
 

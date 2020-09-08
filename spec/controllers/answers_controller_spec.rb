@@ -2,9 +2,12 @@ require 'rails_helper'
 require 'pry'
 
 RSpec.describe AnswersController, type: :controller do
+  let(:user) { FactoryBot.create(:user) }
+
   describe 'GET #index' do
     let(:answers) { FactoryBot.create_list(:answer, 1) }
 
+    before { login(user) }
     before { get :index, params: { question_id: answers.first.question } }
 
     it 'assigns list of all answers for the question to @answers' do
@@ -19,6 +22,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'GET #show' do
    let(:answer) { FactoryBot.create(:answer) }
 
+   before { login(user) }
    before { get :show, params: { question_id: answer.question, id: answer}}
 
    it 'assigns necessary answer to @answer variable' do
@@ -30,22 +34,10 @@ RSpec.describe AnswersController, type: :controller do
    end
   end
 
-  describe 'GET #new' do
-   let(:question) { FactoryBot.create(:question) }
-
-   before { get :new, params: { question_id: question }}
-
-   it 'it assigns new answer to variable @answer' do
-     expect(assigns(:answer)).to be_a_new Answer
-   end
-
-   it 'renders new view' do
-     expect(response).to render_template :new
-   end
-  end
-
   describe 'POST #create' do
     let(:question) { FactoryBot.create(:question) }
+
+    before { login(user) }
 
     context 'with valid params' do
       it 'creates new answer' do
@@ -65,7 +57,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, params: { question_id: question, answer: FactoryBot.attributes_for(:answer, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end
