@@ -1,5 +1,5 @@
 h1= @question.title
 h2= @question.body
 
-=render 'answers/new'
-=link_to 'Answers', question_answers_path(question_id: @question)
+= render 'answers/new'
+= render @question.answers

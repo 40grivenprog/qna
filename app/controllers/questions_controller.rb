@@ -14,8 +14,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user_id = current_user.id
+    @question = current_user.questions.new(question_params)
     if @question.save
       redirect_to @question, notice: 'Your question succesfully created.'
     else
@@ -24,12 +23,13 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.authored_question? @question
+    if current_user == @question.user
       @question.destroy
-      redirect_to questions_path, notice: 'Destroyed succesfully'
+      message = 'Destroyed succesfully'
     else
-      redirect_to questions_path, alert: 'You are not the author'
+      message = 'You are not the author'
     end
+    redirect_to questions_path, notice: message
   end
 
   private

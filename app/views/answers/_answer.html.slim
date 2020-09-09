@@ -1,2 +1,4 @@
-= answer.body if answer
-= button_to  'Delete', answer_path(answer), method: :delete if answer
+ruby: if answer.valid?
+= answer.body
+= button_to  'Delete', answer_path(answer), method: :delete
+ruby: end
