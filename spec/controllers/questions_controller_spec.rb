@@ -50,8 +50,8 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     context 'with valid params' do
-      it 'creates new test' do
-       expect { post :create, params: { question: FactoryBot.attributes_for(:question) }}.to change(Question, :count).by(1)
+      it 'creates new user\'s question' do
+       expect { post :create, params: { question: FactoryBot.attributes_for(:question) }}.to change(user.questions, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -94,7 +94,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(user1) }
 
       it 'removes question' do
-         expect { delete :destroy, params: { id: question }}.to change(Question, :count).by(0)
+         expect { delete :destroy, params: { id: question }}.not_to change(Question, :count)
       end
 
       it 'redirects to index view' do

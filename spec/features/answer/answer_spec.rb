@@ -8,7 +8,6 @@ feature 'User can write an answer', %q{
 
   given(:user) { FactoryBot.create(:user) }
   given(:question) { FactoryBot.create(:question) }
-  given(:answer) { FactoryBot.create(:answer) }
 
   describe 'Authenticated user' do
     background { sign_in user}
@@ -16,10 +15,10 @@ feature 'User can write an answer', %q{
     background { visit question_path(question) }
 
     scenario 'write an answer with valid params' do
-      fill_in 'Body', with: answer.body
+      fill_in 'Body', with: 'This is Answer'
       click_on 'Make Answer'
 
-      expect(page).to have_content answer.body
+      expect(page).to have_content 'This is Answer'
     end
 
     scenario 'write an answer with invalid params' do

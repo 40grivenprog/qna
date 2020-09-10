@@ -10,13 +10,17 @@ RSpec.describe AnswersController, type: :controller do
     before { login(user) }
 
     context 'with valid params' do
-      it 'creates new answer' do
+      it 'creates new answer for question' do
        expect { post :create, params: { question_id: question, answer: FactoryBot.attributes_for(:answer) }}.to change(question.answers, :count).by(1)
+      end
+
+      it 'creates new user\'s answer' do
+       expect { post :create, params: { question_id: question, answer: FactoryBot.attributes_for(:answer) }}.to change(user.answers, :count).by(1)
       end
 
       it 'redirects to questions#show view' do
         post :create, params: { question_id: question, answer: FactoryBot.attributes_for(:answer) }
-        expect(response).to redirect_to question_path question
+        expect(response).to redirect_to(question_path(question))
       end
     end
 
@@ -45,7 +49,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to index view' do
         delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question_path answer.question
+        expect(response).to redirect_to(question_path(answer.question))
       end
     end
 
@@ -55,12 +59,12 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user1) }
 
       it 'removes answer' do
-         expect { delete :destroy, params: { id: answer }}.to change(Answer, :count).by(0)
+         expect { delete :destroy, params: { id: answer }}.not_to change(Answer, :count)
       end
 
       it 'redirects to index view' do
         delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question_path answer.question
+        expect(response).to redirect_to(question_path(answer.question))
       end
     end
   end

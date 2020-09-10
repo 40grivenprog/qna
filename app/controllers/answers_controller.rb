@@ -6,7 +6,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params.merge(user_id: current_user.id))
     if @answer.save
-      redirect_to question_path @question
+      redirect_to @question
     else
       render 'questions/show'
     end
@@ -14,11 +14,11 @@ class AnswersController < ApplicationController
 
   def destroy
     question = @answer.question
-    if current_user == @answer.user
+    if current_user.author_of? @answer
       @answer.destroy
-      redirect_to question_path(question), notice: 'Destroyed successfully'
+      redirect_to question, notice: 'Destroyed successfully'
     else
-      redirect_to question_path(question), alert: 'You are not the author'
+      redirect_to question, alert: 'You are not the author'
     end
   end
 

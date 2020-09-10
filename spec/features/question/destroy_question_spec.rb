@@ -25,16 +25,13 @@ feature 'User can delete a question if user is an author', %q{
 
       visit questions_path
 
-      click_on 'Delete'
-      expect(page).to have_content('You are not the author')
+      expect(page).to_not have_selector(:link_or_button, 'Delete')
     end
   end
 
   scenario 'user removes question' do
     visit questions_path
 
-    click_on 'Delete'
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_selector(:link_or_button, 'Delete')
   end
-
 end

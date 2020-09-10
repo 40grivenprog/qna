@@ -20,6 +20,7 @@ feature 'User can delete an answer if user is an author', %q{
 
       click_on 'Delete'
       expect(page).to have_content('Destroyed successfully')
+      expect(page).to_not have_content(answer.body)
     end
 
     scenario 'User removes not his answer' do
@@ -27,15 +28,13 @@ feature 'User can delete an answer if user is an author', %q{
 
       visit visit question_path(question)
 
-      click_on 'Delete'
-      expect(page).to have_content('You are not the author')
+      expect(page).to_not have_selector(:link_or_button, 'Delete')
     end
   end
 
   scenario 'user removes answer' do
     visit  question_path(question)
 
-    click_on 'Delete'
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_selector(:link_or_button, 'Delete')
   end
 end

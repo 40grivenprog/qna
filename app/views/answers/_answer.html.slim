@@ -1,4 +1,5 @@
-ruby: if answer.valid?
-= answer.body
-= button_to  'Delete', answer_path(answer), method: :delete
-ruby: end
+- if answer.valid?
+    = answer.body
+    br
+    = button_to  'Delete', answer_path(answer), method: :delete if current_user.author_of? answer rescue nil
+
