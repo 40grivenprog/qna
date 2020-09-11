@@ -1,5 +1,6 @@
-- if answer.valid?
+- if answer.persisted?
     = answer.body
     br
-    = button_to  'Delete', answer_path(answer), method: :delete if current_user.author_of? answer rescue nil
+    -if current_user && current_user.author_of?(answer)
+        = button_to  'Delete', answer_path(answer), method: :delete
 

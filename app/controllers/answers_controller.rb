@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: %i[destroy]
 
   def create
-    @answer = @question.answers.new(answer_params.merge(user_id: current_user.id))
+    @answer = @question.answers.new(answer_params.merge(user: current_user))
     if @answer.save
       redirect_to @question
     else
