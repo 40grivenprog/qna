@@ -2,59 +2,25 @@ require 'rails_helper'
 require 'pry'
 
 RSpec.describe AnswersController, type: :controller do
-  describe 'GET #index' do
-    let(:answers) { FactoryBot.create_list(:answer, 1) }
-
-    before { get :index, params: { question_id: answers.first.question } }
-
-    it 'assigns list of all answers for the question to @answers' do
-       expect(assigns(:answers)).to match_array answers
-    end
-
-    it 'renders index view' do
-      expect(response).to render_template :index
-    end
-  end
-
-  describe 'GET #show' do
-   let(:answer) { FactoryBot.create(:answer) }
-
-   before { get :show, params: { question_id: answer.question, id: answer}}
-
-   it 'assigns necessary answer to @answer variable' do
-    expect(assigns(:answer)).to eq answer
-   end
-
-   it 'renders show template' do
-    expect(response).to render_template :show
-   end
-  end
-
-  describe 'GET #new' do
-   let(:question) { FactoryBot.create(:question) }
-
-   before { get :new, params: { question_id: question }}
-
-   it 'it assigns new answer to variable @answer' do
-     expect(assigns(:answer)).to be_a_new Answer
-   end
-
-   it 'renders new view' do
-     expect(response).to render_template :new
-   end
-  end
+  let(:user) { FactoryBot.create(:user) }
 
   describe 'POST #create' do
     let(:question) { FactoryBot.create(:question) }
 
+    before { login(user) }
+
     context 'with valid params' do
-      it 'creates new answer' do
+      it 'creates new answer for question' do
        expect { post :create, params: { question_id: question, answer: FactoryBot.attributes_for(:answer) }}.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to show view' do
+      it 'creates new user\'s answer' do
+       expect { post :create, params: { question_id: question, answer: FactoryBot.attributes_for(:answer) }}.to change(user.answers, :count).by(1)
+      end
+
+      it 'redirects to questions#show view' do
         post :create, params: { question_id: question, answer: FactoryBot.attributes_for(:answer) }
-        expect(response).to redirect_to(assigns(:answer))
+        expect(response).to redirect_to(question_path(question))
       end
     end
 
@@ -65,7 +31,40 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, params: { question_id: question, answer: FactoryBot.attributes_for(:answer, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let(:question){ FactoryBot.create(:question, user: user) }
+    let!(:answer){ FactoryBot.create(:answer, question: question, user: user) }
+
+    context 'author removes answer' do
+      before { login(user) }
+
+      it 'removes answer' do
+         expect { delete :destroy, params: { id: answer }}.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirects to index view' do
+        delete :destroy, params: { id: answer }
+        expect(response).to redirect_to(question_path(answer.question))
+      end
+    end
+
+    context 'not author removes answer' do
+      let(:user1){ FactoryBot.create(:user) }
+
+      before { login(user1) }
+
+      it 'removes answer' do
+         expect { delete :destroy, params: { id: answer }}.not_to change(Answer, :count)
+      end
+
+      it 'redirects to index view' do
+        delete :destroy, params: { id: answer }
+        expect(response).to redirect_to(question_path(answer.question))
       end
     end
   end

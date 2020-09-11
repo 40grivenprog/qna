@@ -1,24 +1,24 @@
 class AnswersController < ApplicationController
-  before_action :find_question, only: %i[index new create]
-  before_action :find_answer, only: %i[show]
-
-  def index
-    @answers = @question.answers
-  end
-
-  def new
-    @answer = @question.answers.new
-  end
-
-  def show
-  end
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :find_question, only: %i[create]
+  before_action :find_answer, only: %i[destroy]
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.new(answer_params.merge(user: current_user))
     if @answer.save
-      redirect_to @answer
+      redirect_to @question
     else
-      render :new
+      render 'questions/show'
+    end
+  end
+
+  def destroy
+    question = @answer.question
+    if current_user.author_of? @answer
+      @answer.destroy
+      redirect_to question, notice: 'Destroyed successfully'
+    else
+      redirect_to question, alert: 'You are not the author'
     end
   end
 
