@@ -9,7 +9,7 @@ feature 'User can write an answer', %q{
   given(:user) { FactoryBot.create(:user) }
   given(:question) { FactoryBot.create(:question) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background { sign_in user}
 
     background { visit question_path(question) }
@@ -21,7 +21,7 @@ feature 'User can write an answer', %q{
       expect(page).to have_content 'This is Answer'
     end
 
-    scenario 'write an answer with invalid params' do
+    scenario 'write an answer with invalid params', js: true do
       click_on 'Make Answer'
 
       expect(page).to have_content "Body can't be blank"

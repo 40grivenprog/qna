@@ -3,4 +3,10 @@
     br
     -if current_user && current_user.author_of?(answer)
         = button_to  'Delete', answer_path(answer), method: :delete
+        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
+        = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+          = f.label :body, 'Your answer'
+          = f.text_area :body
+          = f.submit 'Save'
+    br

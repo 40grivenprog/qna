@@ -2,4 +2,5 @@ h1= @question.title
 h2= @question.body
 
 = render 'answers/new'
-= render @question.answers
+.answers
+  = render @question.answers
