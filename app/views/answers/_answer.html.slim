@@ -2,7 +2,7 @@
     = answer.body
     br
     -if current_user && current_user.author_of?(answer)
-        = button_to  'Delete', answer_path(answer), method: :delete
+        = button_to  'Delete', answer_path(answer), method: :delete, remote: true
         = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
         = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|

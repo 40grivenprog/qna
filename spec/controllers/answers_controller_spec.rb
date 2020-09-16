@@ -44,12 +44,12 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'removes answer' do
-         expect { delete :destroy, params: { id: answer }}.to change(Answer, :count).by(-1)
+         expect { delete :destroy, params: { id: answer, format: :js }}.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to index view' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to(question_path(answer.question))
+      it 'renders destroy teplate' do
+        delete :destroy, params: { id: answer, format: :js }
+        expect(response).to render_template :destroy
       end
     end
 
@@ -59,23 +59,18 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user1) }
 
       it 'removes answer' do
-         expect { delete :destroy, params: { id: answer }}.not_to change(Answer, :count)
-      end
-
-      it 'redirects to index view' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to(question_path(answer.question))
+         expect { delete :destroy, params: { id: answer, format: :js }}.not_to change(Answer, :count)
       end
     end
   end
 
   describe 'PATCH #update' do
-    before { login(user) }
-
     let(:question) { FactoryBot.create(:question) }
     let!(:answer) { FactoryBot.create(:answer, question: question, user: user) }
 
     context 'author updates his answer' do
+      before { login(user) }
+
       context 'with valid attributes' do
         it 'changes answer attributes' do
           patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
