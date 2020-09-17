@@ -3,4 +3,4 @@ h2= @question.body
 
 = render 'answers/new'
 .answers
-  = render @question.answers
+  = render @question.answers.sort_by_best

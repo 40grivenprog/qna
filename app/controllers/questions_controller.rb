@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :find_question, only: [:show, :destroy]
+  before_action :find_question, only: [:show, :destroy, :update]
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
@@ -19,6 +19,12 @@ class QuestionsController < ApplicationController
       redirect_to @question, notice: 'Your question succesfully created.'
     else
       render :new
+    end
+  end
+
+  def update
+    if current_user.author_of? @question
+      @question.update(question_params)
     end
   end
 

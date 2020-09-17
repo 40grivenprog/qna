@@ -4,6 +4,33 @@ require 'pry'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
 
+  describe 'POST #mark_as_best' do
+    let(:question) { FactoryBot.create(:question, user: user) }
+    let(:answer) { FactoryBot.create(:answer, question: question)}
+
+    context 'question author marks as best' do
+      before { login(user) }
+
+      it 'updates answer best field' do
+        post :mark_as_best, params: { id: answer }, format: :js
+        answer.reload
+        expect(answer.best).to be true
+      end
+    end
+
+    context 'not question author marks as best' do
+      let(:user1){ FactoryBot.create(:user) }
+
+      before { login(user1) }
+
+      it 'not updates answer best field' do
+        post :mark_as_best, params: { id: answer }, format: :js
+        answer.reload
+        expect(answer.best).to be false
+      end
+    end
+  end
+
   describe 'POST #create' do
     let(:question) { FactoryBot.create(:question) }
 
@@ -44,11 +71,11 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'removes answer' do
-         expect { delete :destroy, params: { id: answer, format: :js }}.to change(Answer, :count).by(-1)
+         expect { delete :destroy, params: { id: answer}, format: :js}.to change(Answer, :count).by(-1)
       end
 
       it 'renders destroy teplate' do
-        delete :destroy, params: { id: answer, format: :js }
+        delete :destroy, params: { id: answer }, format: :js
         expect(response).to render_template :destroy
       end
     end
@@ -59,7 +86,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user1) }
 
       it 'removes answer' do
-         expect { delete :destroy, params: { id: answer, format: :js }}.not_to change(Answer, :count)
+         expect { delete :destroy, params: { id: answer }, format: :js}.not_to change(Answer, :count)
       end
     end
   end
@@ -78,7 +105,7 @@ RSpec.describe AnswersController, type: :controller do
           expect(answer.body).to eq 'new body'
         end
 
-        it 'renders update view' do
+        it 'renders update template' do
           patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
           expect(response).to render_template :update
         end
@@ -91,7 +118,7 @@ RSpec.describe AnswersController, type: :controller do
           end.to_not change(answer, :body)
         end
 
-        it 'renders update view' do
+        it 'renders update template' do
           patch :update, params: { id: answer, answer: FactoryBot.attributes_for(:answer, :invalid) }, format: :js
           expect(response).to render_template :update
         end
