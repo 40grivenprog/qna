@@ -12,13 +12,14 @@ feature 'User can delete an answer if user is an author', %q{
   given!(:answer) { FactoryBot.create(:answer, question: question, user: user1) }
 
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     scenario 'User removes his answer' do
       sign_in(user1)
 
       visit question_path(question)
 
       click_on 'Delete'
+
       expect(page).to have_content('Destroyed successfully')
       expect(page).to_not have_content(answer.body)
     end

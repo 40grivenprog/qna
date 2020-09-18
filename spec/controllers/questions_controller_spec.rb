@@ -103,4 +103,50 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    let(:question) { FactoryBot.create(:question, user: user) }
+
+    context 'author updates his question' do
+      before { login(user) }
+
+      context 'with valid attributes' do
+        it 'changes question attributes' do
+          patch :update, params: { id: question, question: { body: 'new question body' } }, format: :js
+          question.reload
+          expect(question.body).to eq 'new question body'
+        end
+
+        it 'renders update template' do
+          patch :update, params: { id: question, question: { body: 'new question body' } }, format: :js
+          expect(response).to render_template :update
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'does not change question attributes' do
+          expect do
+            patch :update, params: { id: question, question: FactoryBot.attributes_for(:question, :invalid) }, format: :js
+          end.to_not change(question, :body)
+        end
+
+        it 'renders update template' do
+          patch :update, params: { id: question, question: FactoryBot.attributes_for(:question, :invalid) }, format: :js
+          expect(response).to render_template :update
+        end
+      end
+    end
+
+    context 'not author updates question' do
+      let(:user1){ FactoryBot.create(:user) }
+
+      before { login(user1)}
+
+      it 'does not change question attributes' do
+        patch :update, params: { id: question, question: { body: 'new body' } }, format: :js
+        question.reload
+        expect(question.body).to_not eq 'new body'
+      end
+    end
+  end
 end
