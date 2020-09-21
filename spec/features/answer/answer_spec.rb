@@ -16,9 +16,20 @@ feature 'User can write an answer', %q{
 
     scenario 'write an answer with valid params' do
       fill_in 'Body', with: 'This is Answer'
+
       click_on 'Make Answer'
 
       expect(page).to have_content 'This is Answer'
+    end
+
+    scenario 'write an answer with attached files' do
+      fill_in 'Body', with: 'This is Answer'
+      attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
+      click_on 'Make Answer'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
 
     scenario 'write an answer with invalid params', js: true do

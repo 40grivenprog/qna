@@ -27,11 +27,30 @@ feature 'User can edit his question', %q{
       within '.questions' do
         fill_in 'Your Question title', with: 'edited question title'
         fill_in 'Your Question body', with: 'edited question body'
+
         click_on 'Save'
+
         expect(page).to_not have_content question.body
         expect(page).to have_content 'edited question title'
         expect(page).to_not have_selector 'edited question body'
       end
+    end
+
+    scenario 'add attached files to question while editing' do
+      sign_in user1
+
+      visit questions_path
+
+      click_on 'Edit'
+
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
+      click_on 'Save'
+
+      visit question_path(question)
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
 
     scenario 'edits his answer with errors' do

@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'pry'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
@@ -71,7 +70,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'removes answer' do
-         expect { delete :destroy, params: { id: answer}, format: :js}.to change(Answer, :count).by(-1)
+         expect { delete :destroy, params: { id: answer}, format: :js }.to change(Answer, :count).by(-1)
       end
 
       it 'renders destroy teplate' do
