@@ -7,6 +7,6 @@ RSpec.describe Link, type: :model do
   end
 
   describe 'associations' do
-    it { should belong_to(:question) }
+    it { should belong_to(:linkable) }
   end
 end

@@ -6,6 +6,7 @@ RSpec.describe Answer, type: :model do
   describe 'associtians' do
     it { should belong_to(:user) }
     it { should belong_to(:question) }
+    it { should have_many(:links) }
   end
 
   describe 'validations' do
@@ -58,4 +59,6 @@ RSpec.describe Answer, type: :model do
   it 'has many attached files' do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  it { should accept_nested_attributes_for :links }
 end

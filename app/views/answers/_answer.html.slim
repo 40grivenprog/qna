@@ -2,6 +2,12 @@
   div class = 'best_answer'
     h3= 'BEST'
     = answer.body
+    .links
+      p Links:
+      ul
+        - answer.links.each do |link|
+          li= link_to link.name, link.url
+
     - answer.files.each do |file|
       p
         = link_to file.filename.to_s, url_for(file)
@@ -27,12 +33,19 @@
   div id="answer-id-#{answer.id}"
     - if answer.persisted?
         = answer.body
+
         - answer.files.each do |file|
           div id="attachment-id-#{file.id}"
             p
               = link_to file.filename.to_s, url_for(file)
               - if current_user&.author_of? answer
                 = link_to 'Delete attached file', attachment_path(file), remote: true, method: :delete
+
+        .links
+          p Links:
+          ul
+            - answer.links.each do |link|
+              li= link_to link.name, link.url
 
         br
         - if current_user&.author_of?(answer.question)
