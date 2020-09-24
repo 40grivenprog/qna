@@ -8,6 +8,7 @@ gem 'rails', '~> 6.0.3'
 gem 'pry'
 gem 'devise'
 gem 'jquery-rails'
+gem "cocoon"
 gem 'bootstrap'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
