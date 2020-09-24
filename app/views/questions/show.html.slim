@@ -15,7 +15,10 @@
     ul
       - @question.links.each do |link|
         li= link_to link.name, link.url
+- if signed_in?
+  = render 'answers/new'
+- else
+  p= 'Please sign in for make an answer'
 
-= render 'answers/new'
 .answers
   = render @question.answers.sort_by_best
