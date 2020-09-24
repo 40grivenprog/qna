@@ -10,6 +10,7 @@ gem 'devise'
 gem 'jquery-rails'
 gem "cocoon"
 gem 'bootstrap'
+gem "octokit", "~> 4.0"
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server

@@ -12,9 +12,8 @@
 
   .links
     p Links:
-    ul
-      - @question.links.each do |link|
-        li= link_to link.name, link.url
+    = render @question.links
+
 - if signed_in?
   = render 'answers/new'
 - else

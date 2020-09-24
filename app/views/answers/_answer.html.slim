@@ -4,9 +4,7 @@
     = answer.body
     .links
       p Links:
-      ul
-        - answer.links.each do |link|
-          li= link_to link.name, link.url
+      render answer.links
 
     - answer.files.each do |file|
       p
@@ -43,9 +41,7 @@
 
         .links
           p Links:
-          ul
-            - answer.links.each do |link|
-              li= link_to link.name, link.url
+          = render answer.links
 
         br
         - if current_user&.author_of?(answer.question)

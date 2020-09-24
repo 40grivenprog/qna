@@ -18,11 +18,11 @@ RSpec.describe User, type: :model do
     context 'User author_of? method' do
       let(:question1){ FactoryBot.create(:question)}
 
-      it 'is an author' do
+      it 'returns true if user is an author' do
        expect(user).to be_author_of(question)
       end
 
-      it 'is not an author' do
+      it 'returns false if user is an author' do
        expect(user).to_not be_author_of(question1)
       end
     end

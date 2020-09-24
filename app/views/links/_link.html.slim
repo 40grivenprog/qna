@@ -1,0 +1,9 @@
+  ul
+    - if link.is_gist?
+      li= link.name
+      p Body:
+      - link.read_gist.each do |file, content|
+        p= content.content
+
+    - else
+      li= link_to link.name, link.url
