@@ -1,10 +1,11 @@
 .answer-errors
 
 = form_with model: [@question, @question.answers.new] do |f|
- = f.label :body
- = f.text_area :body
- br
- = f.label :files
- = f.file_field :files, multiple: true, direct_upload: true
- br
- = f.submit 'Make Answer'
+  p
+   = f.label :body
+   = f.text_area :body
+  p
+   = f.label :files
+   = f.file_field :files, multiple: true, direct_upload: true
+  p
+    = f.submit 'Make Answer'

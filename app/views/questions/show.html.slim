@@ -10,6 +10,12 @@
           -if current_user&.author_of? @question
             = link_to ' Delete', attachment_path(file), method: :delete, remote: true
 
+  .links
+    p Links:
+    ul
+      - @question.links.each do |link|
+        li= link_to link.name, link.url
+
 = render 'answers/new'
 .answers
   = render @question.answers.sort_by_best

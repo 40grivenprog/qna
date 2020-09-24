@@ -4,6 +4,7 @@ RSpec.describe Question, type: :model do
 
   describe 'associations' do
     it { should belong_to(:user) }
+    it { should have_many(:links).dependent(:destroy) }
     it { should have_many(:answers).dependent(:destroy) }
   end
 
@@ -29,4 +30,6 @@ RSpec.describe Question, type: :model do
   it 'has many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  it { should accept_nested_attributes_for :links }
 end
