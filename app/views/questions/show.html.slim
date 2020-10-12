@@ -10,14 +10,16 @@
           -if current_user&.author_of? @question
             = link_to ' Delete', attachment_path(file), method: :delete, remote: true
 
-  .links
-    p Links:
-    = render @question.links
+  - unless @question.links.empty?
+    .links-list
+      p Links:
+      ul
+        = render @question.links
 
-- if signed_in?
-  = render 'answers/new'
-- else
-  p= 'Please sign in for make an answer'
+  - if signed_in?
+    = render 'answers/new'
+  - else
+    p= 'Please sign in for make an answer'
 
 .answers
   = render @question.answers.sort_by_best
