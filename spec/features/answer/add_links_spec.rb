@@ -30,7 +30,7 @@ feature 'User can add links to answer', %q{
 
     click_on 'Make Answer'
 
-    within(:xpath, "//div[@class = 'answers']//div[@class = 'links']") do
+    within(:xpath, "//div[@class = 'answers']//div[@class = 'answer-links-list']") do
       expect(page).to have_content 'Hello World'
       expect(page).to have_link 'Google Link', href: google_url    end
   end

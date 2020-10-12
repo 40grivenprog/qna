@@ -3,15 +3,16 @@
   h2= @question.body
 
   - if @question.files.attached?
-    - @question.files.each do |file|
-      div id="attachment-id-#{file.id}"
-        p
-          = link_to file.filename.to_s, url_for(file)
-          -if current_user&.author_of? @question
-            = link_to ' Delete', attachment_path(file), method: :delete, remote: true
+    .question-files-list
+      - @question.files.each do |file|
+        div id="attachment-id-#{file.id}"
+          p
+            = link_to file.filename.to_s, url_for(file)
+            -if current_user&.author_of? @question
+              = link_to ' Delete', attachment_path(file), method: :delete, remote: true
 
   - unless @question.links.empty?
-    .links-list
+    .question-links-list
       p Links:
       ul
         = render @question.links

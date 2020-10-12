@@ -14,7 +14,7 @@ feature 'User can delete links from question', %q{
     scenario 'destroys links for his question' do
       sign_in(user1)
       visit question_path(question)
-      within '.links-list' do
+      within '.question-links-list' do
         click_on 'Delete'
         expect(page).to_not have_content(link.name)
       end
@@ -23,7 +23,7 @@ feature 'User can delete links from question', %q{
     scenario 'destroys links not for his question' do
       sign_in(user2)
       visit question_path(question)
-      within '.links-list' do
+      within '.question-links-list' do
         expect(page).to_not have_link('Delete')
       end
     end

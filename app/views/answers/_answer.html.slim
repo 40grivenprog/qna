@@ -2,15 +2,15 @@
   div class = 'best_answer'
     h3= 'BEST'
     = answer.body
-    .links
+    .answer-links-list
       p Links:
-      render answer.links
-
-    - answer.files.each do |file|
-      p
-        = link_to file.filename.to_s, url_for(file)
-        - if current_user&.author_of? answer
-          = link_to 'Delete attached file', attachment_path(file), remote: true, method: :delete
+      = render answer.links
+    .answer-files-list
+      - answer.files.each do |file|
+        p
+          = link_to file.filename.to_s, url_for(file)
+          - if current_user&.author_of? answer
+            = link_to 'Delete', attachment_path(file), remote: true, method: :delete
     br
     = link_to 'Mark as best', mark_as_best_answer_path(answer), remote: true, method: :post
     br
@@ -32,14 +32,15 @@
     - if answer.persisted?
         = answer.body
 
-        - answer.files.each do |file|
-          div id="attachment-id-#{file.id}"
-            p
-              = link_to file.filename.to_s, url_for(file)
-              - if current_user&.author_of? answer
-                = link_to 'Delete attached file', attachment_path(file), remote: true, method: :delete
+        .answer-files-list
+          - answer.files.each do |file|
+            div id="attachment-id-#{file.id}"
+              p
+                = link_to file.filename.to_s, url_for(file)
+                - if current_user&.author_of? answer
+                  = link_to 'Delete', attachment_path(file), remote: true, method: :delete
 
-        .links
+        .answer-links-list
           p Links:
           = render answer.links
 
