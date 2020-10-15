@@ -16,5 +16,8 @@ div id="question-id-#{question.id}"
         = f.label :files
         = f.file_field :files, multiple: true, direct: true
         br
+        #new-links
+          = link_to_add_association 'Add one more link', f, :links, partial: 'shared/link_fields'
+        br
         = f.submit 'Save'
       br

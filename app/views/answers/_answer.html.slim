@@ -6,11 +6,8 @@
       p Links:
       = render answer.links
     .answer-files-list
-      - answer.files.each do |file|
-        p
-          = link_to file.filename.to_s, url_for(file)
-          - if current_user&.author_of? answer
-            = link_to 'Delete', attachment_path(file), remote: true, method: :delete
+      = render answer.files, resource: answer
+
     br
     = link_to 'Mark as best', mark_as_best_answer_path(answer), remote: true, method: :post
     br
@@ -25,6 +22,9 @@
           = f.label :files
           = f.file_field :files, multiple: true, direct_upload: true
           br
+          #new-links
+            = link_to_add_association 'Add one more link', f, :links, partial: 'shared/link_fields'
+          br
           = f.submit 'Save'
     br
 -else
@@ -33,12 +33,7 @@
         = answer.body
 
         .answer-files-list
-          - answer.files.each do |file|
-            div id="attachment-id-#{file.id}"
-              p
-                = link_to file.filename.to_s, url_for(file)
-                - if current_user&.author_of? answer
-                  = link_to 'Delete', attachment_path(file), remote: true, method: :delete
+          = render answer.files, resource: answer
 
         .answer-links-list
           p Links:
@@ -58,6 +53,9 @@
               br
               = f.label :files
               = f.file_field :files, multiple: true, direct_upload: true
+              br
+              #new-links
+                = link_to_add_association 'Add one more link', f, :links, partial: 'shared/link_fields'
               br
               = f.submit 'Save'
         br

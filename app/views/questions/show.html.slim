@@ -2,14 +2,15 @@
   h1= @question.title
   h2= @question.body
 
+  - unless @question.badges.empty?
+    p Badge:
+    = @question.badges.first.title
+    = image_tag @question.badges.first.image
+
+
   - if @question.files.attached?
     .question-files-list
-      - @question.files.each do |file|
-        div id="attachment-id-#{file.id}"
-          p
-            = link_to file.filename.to_s, url_for(file)
-            -if current_user&.author_of? @question
-              = link_to ' Delete', attachment_path(file), method: :delete, remote: true
+      = render @question.files, resource: @question
 
   - unless @question.links.empty?
     .question-links-list

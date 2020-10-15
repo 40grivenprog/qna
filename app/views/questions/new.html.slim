@@ -16,6 +16,14 @@
       = render 'shared/link_fields', f: link
     .links
       = link_to_add_association 'Add one more link', f, :links, partial: 'shared/link_fields'
+  #new-badge
+    = f.fields_for :badges do |badge|
+      p
+        = badge.label :title, 'Badge title'
+        = badge.text_field :title
+      p
+        = badge.label :image
+        = badge.file_field :image, direct_upload: true
 
   p= f.submit 'Ask'
 

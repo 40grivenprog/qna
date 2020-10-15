@@ -53,6 +53,10 @@ RSpec.describe QuestionsController, type: :controller do
      expect(assigns(:question).links.first).to be_a_new Link
    end
 
+   it 'it generates new link for a @question' do
+     expect(assigns(:question).badges.first).to be_a_new Badge
+   end
+
    it 'renders new view' do
      expect(response).to render_template :new
    end
