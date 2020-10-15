@@ -15,6 +15,7 @@ class Answer < ApplicationRecord
   def mark_as_best
     transaction do
       question.best_answer&.update!(best: false)
+      question.badges&.first&.update!(user_id: user_id)
       update!(best: true)
     end
   end

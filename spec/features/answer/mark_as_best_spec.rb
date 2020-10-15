@@ -23,6 +23,7 @@ feature 'User can choose the best answer for his question', %q{
           expect(page).to have_content (answer.body)
       end
     end
+
     scenario 'user is not author of a question' do
       sign_in(user2)
 

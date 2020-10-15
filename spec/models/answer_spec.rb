@@ -40,9 +40,11 @@ RSpec.describe Answer, type: :model do
 
   describe 'methods' do
     context 'mark_as_best method' do
+      let(:user) { FactoryBot.create(:user) }
       let(:question) { FactoryBot.create(:question) }
-      let(:answer1) { FactoryBot.create(:answer, question: question) }
+      let(:answer1) { FactoryBot.create(:answer, question: question, user: user) }
       let!(:answer2) { FactoryBot.create(:answer, question: question, best: true) }
+      let!(:badge) { FactoryBot.create(:badge, question: question)}
 
       before { answer1.mark_as_best }
 
@@ -52,6 +54,10 @@ RSpec.describe Answer, type: :model do
 
       it 'makes best answer not best' do
         expect(answer2.reload.best).to be false
+      end
+
+      it 'give badge for a user with best answer' do
+        expect(badge.reload.user).to eq(answer1.reload.user)
       end
     end
   end
