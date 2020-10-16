@@ -51,6 +51,22 @@ feature 'User can edit his answer', %q{
       expect(page).to have_selector 'textarea'
     end
 
+    scenario 'add attached files to answer while editing' do
+      sign_in user1
+
+      visit question_path(question)
+
+      click_on 'Edit'
+      within '.answers' do
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
+        click_on 'Save'
+
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
     scenario "tries to edit other user's answer" do
       sign_in user2
 

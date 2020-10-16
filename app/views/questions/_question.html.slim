@@ -13,5 +13,8 @@ div id="question-id-#{question.id}"
         = f.label :body, 'Your Question body'
         = f.text_area :body
         br
+        = f.label :files
+        = f.file_field :files, multiple: true, direct: true
+        br
         = f.submit 'Save'
       br
