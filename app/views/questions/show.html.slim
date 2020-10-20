@@ -2,14 +2,26 @@
   h1= @question.title
   h2= @question.body
 
-  - if @question.files.attached?
-    - @question.files.each do |file|
-      div id="attachment-id-#{file.id}"
-        p
-          = link_to file.filename.to_s, url_for(file)
-          -if current_user&.author_of? @question
-            = link_to ' Delete', attachment_path(file), method: :delete, remote: true
+  - if @question.badge
+    p Badge:
+    = @question.badge&.title
+    = image_tag @question.badge&.image
 
-= render 'answers/new'
+
+  - if @question.files.attached?
+    .question-files-list
+      = render @question.files
+
+  - unless @question.links.empty?
+    .question-links-list
+      p Links:
+      ul
+        = render @question.links
+
+  - if signed_in?
+    = render 'answers/new'
+  - else
+    p= 'Please sign in for make an answer'
+
 .answers
   = render @question.answers.sort_by_best

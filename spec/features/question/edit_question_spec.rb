@@ -53,6 +53,24 @@ feature 'User can edit his question', %q{
       expect(page).to have_link 'spec_helper.rb'
     end
 
+    scenario 'add links to question while editing', js: true do
+      sign_in user1
+
+      visit questions_path
+
+      click_on 'Edit'
+      click_on 'Add one more link'
+
+      fill_in 'Link name', with: 'Google Link'
+      fill_in 'Link url', with: 'https://www.google.com/'
+
+      click_on 'Save'
+
+      visit question_path(question)
+
+      expect(page).to have_link 'Google Link', href: 'https://www.google.com/'
+    end
+
     scenario 'edits his answer with errors' do
       sign_in user1
 

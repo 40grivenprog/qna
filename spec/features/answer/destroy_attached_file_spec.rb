@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can delete attached files for an answer if user is an author', %q{
+feature 'User can Deletes for an answer if user is an author', %q{
   In order to help another users from a community a want to remove attached files from my answer if not needed
   As an authencated User
   I'd like to be able to remove my attached files to my answer
@@ -16,8 +16,8 @@ feature 'User can delete attached files for an answer if user is an author', %q{
       sign_in(user1)
       visit question_path(question)
 
-      within('.answers') do
-        click_on 'Delete attached file'
+      within('.answer-files-list') do
+        click_on 'Delete'
 
         expect(page).to_not have_link 'rails_helper.rb'
       end
@@ -28,8 +28,8 @@ feature 'User can delete attached files for an answer if user is an author', %q{
 
       visit question_path(question)
 
-      within '.answers' do
-        expect(page).to_not have_selector(:link_or_button, 'Delete attached file')
+      within '.answer-files-list' do
+        expect(page).to_not have_selector(:link_or_button, 'Delete')
       end
     end
   end
@@ -37,8 +37,8 @@ feature 'User can delete attached files for an answer if user is an author', %q{
   scenario 'user removes attached file' do
     visit question_path(question)
 
-    within '.question' do
-      expect(page).to_not have_selector(:link_or_button, 'Delete attached file')
+    within '.answer-files-list' do
+      expect(page).to_not have_selector(:link_or_button, 'Delete')
     end
   end
 

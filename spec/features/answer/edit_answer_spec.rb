@@ -67,6 +67,24 @@ feature 'User can edit his answer', %q{
       end
     end
 
+    scenario 'add link to answer while editing' do
+      sign_in user1
+
+      visit question_path(question)
+
+      click_on 'Edit'
+      within '.answers' do
+        click_on 'Add one more link'
+
+        fill_in 'Link name', with: 'Google Link'
+        fill_in 'Link url', with: 'https://www.google.com/'
+
+        click_on 'Save'
+
+        expect(page).to have_link 'Google Link', href: 'https://www.google.com/'
+      end
+    end
+
     scenario "tries to edit other user's answer" do
       sign_in user2
 

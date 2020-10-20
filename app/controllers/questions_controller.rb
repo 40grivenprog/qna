@@ -7,10 +7,14 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answer = @question.answers.new
+    @answer.links.new
   end
 
   def new
     @question = Question.new
+    @question.links.new
+    @question.build_badge
   end
 
   def create
@@ -45,6 +49,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url, :done, :_destroy], badge_attributes: [:title, :image])
   end
 end

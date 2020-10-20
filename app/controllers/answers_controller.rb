@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :update]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :find_question, only: %i[create]
   before_action :find_answer, only: %i[destroy update mark_as_best]
 
@@ -29,7 +29,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url])
   end
 
   def find_question

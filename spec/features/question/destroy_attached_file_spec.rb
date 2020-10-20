@@ -15,7 +15,7 @@ feature 'User can delete attached files for a question if user is an author', %q
 
       visit question_path(question)
 
-      within '.question' do
+      within '.question-files-list' do
         click_on 'Delete'
 
         expect(page).to_not have_link 'rails_helper.rb'
@@ -27,7 +27,7 @@ feature 'User can delete attached files for a question if user is an author', %q
 
       visit question_path(question)
 
-      within '.question' do
+      within '.question-files-list' do
         expect(page).to_not have_selector(:link_or_button, 'Delete')
       end
     end
@@ -36,7 +36,7 @@ feature 'User can delete attached files for a question if user is an author', %q
   scenario 'user removes attached file' do
     visit question_path(question)
 
-    within '.question' do
+    within '.question-files-list' do
       expect(page).to_not have_selector(:link_or_button, 'Delete')
     end
   end

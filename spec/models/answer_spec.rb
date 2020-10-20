@@ -6,6 +6,7 @@ RSpec.describe Answer, type: :model do
   describe 'associtians' do
     it { should belong_to(:user) }
     it { should belong_to(:question) }
+    it { should have_many(:links) }
   end
 
   describe 'validations' do
@@ -39,9 +40,11 @@ RSpec.describe Answer, type: :model do
 
   describe 'methods' do
     context 'mark_as_best method' do
+      let(:user) { FactoryBot.create(:user) }
       let(:question) { FactoryBot.create(:question) }
-      let(:answer1) { FactoryBot.create(:answer, question: question) }
+      let(:answer1) { FactoryBot.create(:answer, question: question, user: user) }
       let!(:answer2) { FactoryBot.create(:answer, question: question, best: true) }
+      let!(:badge) { FactoryBot.create(:badge, question: question)}
 
       before { answer1.mark_as_best }
 
@@ -52,10 +55,16 @@ RSpec.describe Answer, type: :model do
       it 'makes best answer not best' do
         expect(answer2.reload.best).to be false
       end
+
+      it 'give badge for a user with best answer' do
+        expect(badge.reload.user).to eq(answer1.reload.user)
+      end
     end
   end
 
   it 'has many attached files' do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  it { should accept_nested_attributes_for :links }
 end

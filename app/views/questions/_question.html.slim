@@ -8,13 +8,16 @@ div id="question-id-#{question.id}"
 
       = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
         = f.label :title, 'Your Question title'
-        = f.text_area :title
+        = f.text_field :title
         br
         = f.label :body, 'Your Question body'
         = f.text_area :body
         br
         = f.label :files
         = f.file_field :files, multiple: true, direct: true
+        br
+        #new-links
+          = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
         br
         = f.submit 'Save'
       br

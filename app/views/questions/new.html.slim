@@ -1,13 +1,29 @@
 =render 'shared/errors', resource: @question
 
 = form_with model: @question, local: true do |f|
- = f.label :title
- = f.text_field :title
+  p
+    = f.label :title
+    = f.text_field :title
+  p
+    = f.label :body
+    = f.text_area :body
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
 
- = f.label :body
- = f.text_area :body
+  #new-links
+    = f.fields_for :links do |link|
+      = render 'links/link_fields', f: link
+    .links
+      = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
+  #new-badge
+    = f.fields_for :badge do |b|
+      p
+        = b.label :title, 'Badge title'
+        = b.text_field :title
+      p
+        = b.label :image
+        = b.file_field :image, direct_upload: true
 
- = f.label :files
- = f.file_field :files, multiple: true, direct_upload: true
+  p= f.submit 'Ask'
 
- = f.submit 'Ask'

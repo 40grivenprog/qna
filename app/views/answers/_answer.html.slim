@@ -2,11 +2,12 @@
   div class = 'best_answer'
     h3= 'BEST'
     = answer.body
-    - answer.files.each do |file|
-      p
-        = link_to file.filename.to_s, url_for(file)
-        - if current_user&.author_of? answer
-          = link_to 'Delete attached file', attachment_path(file), remote: true, method: :delete
+    .answer-links-list
+      p Links:
+      = render answer.links
+    .answer-files-list
+      = render answer.files
+
     br
     = link_to 'Mark as best', mark_as_best_answer_path(answer), remote: true, method: :post
     br
@@ -21,18 +22,22 @@
           = f.label :files
           = f.file_field :files, multiple: true, direct_upload: true
           br
+          #new-links
+            = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
+          br
           = f.submit 'Save'
     br
 -else
   div id="answer-id-#{answer.id}"
     - if answer.persisted?
         = answer.body
-        - answer.files.each do |file|
-          div id="attachment-id-#{file.id}"
-            p
-              = link_to file.filename.to_s, url_for(file)
-              - if current_user&.author_of? answer
-                = link_to 'Delete attached file', attachment_path(file), remote: true, method: :delete
+
+        .answer-files-list
+          = render answer.files
+
+        .answer-links-list
+          p Links:
+          = render answer.links
 
         br
         - if current_user&.author_of?(answer.question)
@@ -48,6 +53,9 @@
               br
               = f.label :files
               = f.file_field :files, multiple: true, direct_upload: true
+              br
+              #new-links
+                = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
               br
               = f.submit 'Save'
         br

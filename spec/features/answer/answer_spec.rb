@@ -39,11 +39,9 @@ feature 'User can write an answer', %q{
     end
   end
 
-  scenario 'Unauthenticated user write an answer' do
+  scenario 'Unauthenticated user write an answer', js: true do
     visit question_path(question)
 
-    click_on 'Make Answer'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to have_content 'Please sign in for make an answer'
   end
 end
