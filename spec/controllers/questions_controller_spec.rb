@@ -54,7 +54,7 @@ RSpec.describe QuestionsController, type: :controller do
    end
 
    it 'it generates new link for a @question' do
-     expect(assigns(:question).badges.first).to be_a_new Badge
+     expect(assigns(:question).build_badge).to be_a_new Badge
    end
 
    it 'renders new view' do

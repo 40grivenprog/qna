@@ -3,7 +3,7 @@ class Question < ApplicationRecord
 
   has_many :links, dependent: :destroy, as: :linkable
   has_many :answers, dependent: :destroy
-  has_many :badges, dependent: :destroy
+  has_one :badge, dependent: :destroy
 
   has_many_attached :files
 
@@ -11,7 +11,7 @@ class Question < ApplicationRecord
   validates :body, presence: true, length: { minimum: 10 }
 
   accepts_nested_attributes_for :links, reject_if: :all_blank
-  accepts_nested_attributes_for :badges, reject_if: :all_blank
+  accepts_nested_attributes_for :badge, reject_if: :all_blank
 
   def best_answer
     answers.best_answer.first

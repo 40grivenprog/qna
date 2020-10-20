@@ -6,7 +6,7 @@
       p Links:
       = render answer.links
     .answer-files-list
-      = render answer.files, resource: answer
+      = render answer.files
 
     br
     = link_to 'Mark as best', mark_as_best_answer_path(answer), remote: true, method: :post
@@ -23,7 +23,7 @@
           = f.file_field :files, multiple: true, direct_upload: true
           br
           #new-links
-            = link_to_add_association 'Add one more link', f, :links, partial: 'shared/link_fields'
+            = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
           br
           = f.submit 'Save'
     br
@@ -33,7 +33,7 @@
         = answer.body
 
         .answer-files-list
-          = render answer.files, resource: answer
+          = render answer.files
 
         .answer-links-list
           p Links:
@@ -55,7 +55,7 @@
               = f.file_field :files, multiple: true, direct_upload: true
               br
               #new-links
-                = link_to_add_association 'Add one more link', f, :links, partial: 'shared/link_fields'
+                = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
               br
               = f.submit 'Save'
         br

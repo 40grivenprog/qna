@@ -2,15 +2,15 @@
   h1= @question.title
   h2= @question.body
 
-  - unless @question.badges.empty?
+  - if @question.badge
     p Badge:
-    = @question.badges.first.title
-    = image_tag @question.badges.first.image
+    = @question.badge&.title
+    = image_tag @question.badge&.image
 
 
   - if @question.files.attached?
     .question-files-list
-      = render @question.files, resource: @question
+      = render @question.files
 
   - unless @question.links.empty?
     .question-links-list
