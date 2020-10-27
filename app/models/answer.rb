@@ -1,10 +1,11 @@
 class Answer < ApplicationRecord
   include Linkable
   include Attacheable
+  include Voteable
 
   belongs_to :user
   belongs_to :question
-  has_many :votes, dependent: :destroy, as: :voteable
+
   validates :body, presence: true, length: { minimum: 5 }
 
   scope :sort_by_best, -> { order(best: :desc)}

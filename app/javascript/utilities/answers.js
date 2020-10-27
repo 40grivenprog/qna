@@ -6,8 +6,9 @@ $(document).on('turbolinks:load', function(){
        $('form#edit-answer-' + answerId).removeClass('hidden');
    })
 
-   $('.votes_section').on('ajax:success', function(e) {
+   $('.answer_votes_section').on('ajax:success', function(e) {
     let result = e.detail[0].vote_result
-    $('.question_votes_result').children().text(result)
+    let id = e.detail[0].record_id
+    $('.answer_' + id + '_votes_result').children().text(result)
    })
 });

@@ -1,11 +1,11 @@
 class Question < ApplicationRecord
   include Linkable
   include Attacheable
+  include Voteable
 
   belongs_to :user
 
   has_many :answers, dependent: :destroy
-  has_many :votes, dependent: :destroy, as: :voteable
   has_one :badge, dependent: :destroy
 
   validates :title, presence: true, length: { minimum: 5 }
@@ -15,43 +15,5 @@ class Question < ApplicationRecord
 
   def best_answer
     answers.best_answer.first
-  end
-
-  def vote_for_by(user)
-    return if user.author_of? self
-
-    user_vote = votes.find_by(user: user)
-    if user_vote
-      user_vote.update(score: 1)
-    else
-      votes.create(user: user, score: 1)
-    end
-  end
-
-  def vote_against_by(user)
-    return if user.author_of? self
-
-    user_vote = votes.find_by(user: user)
-    if user_vote
-      user_vote.update(score: -1)
-    else
-      votes.create(user: user, score: -1)
-    end
-  end
-
-  def cancel_vote_by(user)
-    user_vote = votes.find_by(user: user)
-
-    return unless user_vote
-
-    user_vote.destroy
-  end
-
-  def calculate_score
-    if votes.empty?
-      0
-    else
-      votes.pluck(:score).sum
-    end
   end
 end
