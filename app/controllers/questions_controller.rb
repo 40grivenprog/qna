@@ -19,14 +19,17 @@ class QuestionsController < ApplicationController
 
   def vote_for
     @question.vote_for_by(current_user)
+    votes_result
   end
 
   def vote_against
     @question.vote_against_by(current_user)
+    votes_result
   end
 
   def cancel_vote
     @question.cancel_vote_by(current_user)
+    votes_result
   end
 
   def create
@@ -55,6 +58,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def votes_result
+    respond_to { |format| format.json { render json: {vote_result: @question.calculate_score}}}
+  end
 
   def find_question
     @question = Question.with_attached_files.find(params[:id])

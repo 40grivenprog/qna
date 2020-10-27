@@ -175,14 +175,14 @@ RSpec.describe QuestionsController, type: :controller do
       let(:question) { FactoryBot.create(:question, user: author) }
 
       it 'add new vote for an answer' do
-        post :vote_for, params: { id: question }, format: :js
+        post :vote_for, params: { id: question }, format: :json
 
         expect(question.votes.count).to be(1)
         expect(question.votes.last.score).to be(1)
       end
 
       it 'didn\'t add new vote for an answer if he vote twice' do
-        2.times { post :vote_for, params: { id: question }, format: :js }
+        2.times { post :vote_for, params: { id: question }, format: :json }
         expect(question.votes.count).to be(1)
       end
     end
@@ -193,7 +193,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(author) }
 
       it 'add new vote for an answer' do
-        expect { post :vote_for, params: { id: question }, format: :js}.to change(question.votes, :count).by(0)
+        expect { post :vote_for, params: { id: question }, format: :json }.to change(question.votes, :count).by(0)
       end
     end
 
@@ -206,13 +206,13 @@ RSpec.describe QuestionsController, type: :controller do
       let(:question) { FactoryBot.create(:question, user: author) }
 
       it 'add new vote against an answer' do
-        post :vote_against, params: { id: question }, format: :js
+        post :vote_against, params: { id: question }, format: :json
         expect(question.votes.count).to be(1)
         expect(question.votes.last.score).to be(-1)
       end
 
       it 'add new vote against an answer twice' do
-        2.times { post :vote_against, params: { id: question }, format: :js }
+        2.times { post :vote_against, params: { id: question }, format: :json }
         expect(question.votes.count).to be(1)
       end
     end
@@ -223,7 +223,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(author) }
 
       it 'add new vote against an answer' do
-        expect { post :vote_against, params: { id: question }, format: :js}.to change(question.votes, :count).by(0)
+        expect { post :vote_against, params: { id: question }, format: :json }.to change(question.votes, :count).by(0)
       end
     end
   end
@@ -235,7 +235,7 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     it 'should destroy user vote' do
-      delete :cancel_vote, params: { id: question }, format: :js
+      delete :cancel_vote, params: { id: question }, format: :json
 
       expect(question.votes.count).to be 0
     end
