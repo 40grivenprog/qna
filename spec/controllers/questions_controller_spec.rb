@@ -156,7 +156,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'not author updates question' do
       let(:user1){ FactoryBot.create(:user) }
 
-      before { login(user1)}
+      before { login(user1) }
 
       it 'does not change question attributes' do
         patch :update, params: { id: question, question: { body: 'new body' } }, format: :js
@@ -164,5 +164,81 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to_not eq 'new body'
       end
     end
+  end
+
+  describe 'POST #vote_for' do
+    let(:author) { FactoryBot.create(:user) }
+
+    context 'votes not for his question' do
+      before { login(user) }
+
+      let(:question) { FactoryBot.create(:question, user: author) }
+
+      it 'add new vote for an answer' do
+        post :vote_for, params: { id: question }, format: :js
+
+        expect(question.votes.count).to be(1)
+        expect(question.votes.last.score).to be(1)
+      end
+
+      it 'didn\'t add new vote for an answer if he vote twice' do
+        2.times { post :vote_for, params: { id: question }, format: :js }
+        expect(question.votes.count).to be(1)
+      end
+    end
+
+    context 'votes for his question' do
+      let(:question) { FactoryBot.create(:question, user: author) }
+
+      before { login(author) }
+
+      it 'add new vote for an answer' do
+        expect { post :vote_for, params: { id: question }, format: :js}.to change(question.votes, :count).by(0)
+      end
+    end
+
+  describe 'POST #vote_against' do
+    let(:author) { FactoryBot.create(:user) }
+
+    context 'votes against not for his question' do
+      before { login(user) }
+
+      let(:question) { FactoryBot.create(:question, user: author) }
+
+      it 'add new vote against an answer' do
+        post :vote_against, params: { id: question }, format: :js
+        expect(question.votes.count).to be(1)
+        expect(question.votes.last.score).to be(-1)
+      end
+
+      it 'add new vote against an answer twice' do
+        2.times { post :vote_against, params: { id: question }, format: :js }
+        expect(question.votes.count).to be(1)
+      end
+    end
+
+    context 'votes against his question' do
+      let(:question) { FactoryBot.create(:question, user: author) }
+
+      before { login(author) }
+
+      it 'add new vote against an answer' do
+        expect { post :vote_against, params: { id: question }, format: :js}.to change(question.votes, :count).by(0)
+      end
+    end
+  end
+
+  describe 'DELETE #cancel_vote' do
+    let(:question) { FactoryBot.create(:question) }
+    let!(:vote) { FactoryBot.create(:vote, voteable: question, user: user)}
+
+    before { login(user) }
+
+    it 'should destroy user vote' do
+      delete :cancel_vote, params: { id: question }, format: :js
+
+      expect(question.votes.count).to be 0
+    end
+  end
   end
 end

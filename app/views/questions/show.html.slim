@@ -2,6 +2,16 @@
   h1= @question.title
   h2= @question.body
 
+  .votes_section
+    = link_to 'vote for', vote_for_question_path(@question), method: :post, remote: true
+
+    .question_votes_result
+      h3= @question.calculate_score
+
+    = link_to 'vote against', vote_against_question_path(@question), method: :post, remote: true
+    br
+    = link_to 'cancel vote', cancel_vote_question_path(@question), method: :delete, remote: true
+
   - if @question.badge
     p Badge:
     = @question.badge&.title

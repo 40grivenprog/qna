@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :find_question, only: [:show, :destroy, :update]
+  before_action :find_question, only: [:show, :destroy, :update, :vote_for, :vote_against, :cancel_vote]
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
@@ -15,6 +15,18 @@ class QuestionsController < ApplicationController
     @question = Question.new
     @question.links.new
     @question.build_badge
+  end
+
+  def vote_for
+    @question.vote_for_by(current_user)
+  end
+
+  def vote_against
+    @question.vote_against_by(current_user)
+  end
+
+  def cancel_vote
+    @question.cancel_vote_by(current_user)
   end
 
   def create
