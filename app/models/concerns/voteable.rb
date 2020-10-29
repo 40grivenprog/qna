@@ -35,10 +35,6 @@ module Voteable
   end
 
   def calculate_score
-    if votes.empty?
-      0
-    else
-      votes.pluck(:score).sum
-    end
+    votes.sum(:score) || 0
   end
 end
