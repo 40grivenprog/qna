@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
+  include_examples 'voted', :question
 
   describe 'GET #index' do
     let(:questions){ FactoryBot.create_list(:question, 3) }
@@ -156,7 +157,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'not author updates question' do
       let(:user1){ FactoryBot.create(:user) }
 
-      before { login(user1)}
+      before { login(user1) }
 
       it 'does not change question attributes' do
         patch :update, params: { id: question, question: { body: 'new body' } }, format: :js
