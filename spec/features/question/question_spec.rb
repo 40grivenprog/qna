@@ -41,6 +41,35 @@ feature 'User can sign in', %q{
 
       expect(page).to have_content "Title can't be blank"
     end
+
+    context "multiple sessions", :cable do
+      scenario "all users see new question in real-time", js: true  do
+        Capybara.using_session('author') do
+          sign_in(user)
+          visit questions_path
+        end
+
+        Capybara.using_session('guest') do
+          visit questions_path
+        end
+
+        Capybara.using_session('author') do
+          visit new_question_path
+          fill_in 'Title', with: 'Question'
+          fill_in 'Body', with: 'Question body'
+
+          click_on 'Ask'
+
+          expect(page).to have_content 'Question'
+          expect(page).to have_content 'Question body'
+        end
+
+        Capybara.using_session('guest') do
+          expect(page).to have_content 'Question'
+          expect(page).to have_content 'Question body'
+        end
+      end
+    end
   end
 
   scenario 'Unauthencated user asks a question' do

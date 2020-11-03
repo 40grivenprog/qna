@@ -1,7 +1,6 @@
 .question
   h1= @question.title
   h2= @question.body
-
   .votes_section
     = link_to 'vote for', vote_for_question_path(@question), method: :post, remote: true, data: { type: :json }
 
@@ -12,11 +11,16 @@
     br
     = link_to 'cancel vote', cancel_vote_question_path(@question), method: :delete, remote: true, data: { type: :json }
 
+  .question_comments
+       h3= 'Comments'
+       = render 'comments/new_question_comment'
+       - unless @question.comments.empty?
+         = render @question.comments
+
   - if @question.badge
     p Badge:
     = @question.badge&.title
     = image_tag @question.badge&.image
-
 
   - if @question.files.attached?
     .question-files-list
@@ -28,10 +32,12 @@
       ul
         = render @question.links
 
-  - if signed_in?
-    = render 'answers/new'
-  - else
-    p= 'Please sign in for make an answer'
-
-.answers
-  = render @question.answers.sort_by_best
+  h3= 'New answer'
+  .new_answer
+    - if signed_in?
+      = render 'answers/new'
+    - else
+      p= 'Please sign in for make an answer'
+  h3= "Answers"
+  div class = "answers question_#{@question.id}_answers"
+    = render @question.answers.sort_by_best

@@ -7,6 +7,7 @@ $(document).on('turbolinks:load', function(){
    })
 
    $('.answer_votes_section').on('ajax:success', function(e) {
+    console.log('aaaaaaaaa')
     let result = e.detail[0].vote_result
     let id = e.detail[0].record_id
     $('.answer_' + id + '_votes_result').children().text(result)

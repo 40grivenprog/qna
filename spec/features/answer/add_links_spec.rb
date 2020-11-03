@@ -15,22 +15,23 @@ feature 'User can add links to answer', %q{
     sign_in(user)
 
     visit question_path(question)
+    within '.new_answer' do
+      fill_in 'Body', with: 'My answer'
 
-    fill_in 'Body', with: 'My answer'
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Link url', with: gist_url
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Link url', with: gist_url
+      click_on 'Add one more link'
 
-    click_on 'Add one more link'
+      within(:xpath, "//div[@class = 'nested-fields'][2]") do
+        fill_in 'Link name', with: 'Google Link'
+        fill_in 'Link url', with: google_url
+      end
 
-    within(:xpath, "//div[@class = 'nested-fields'][2]") do
-      fill_in 'Link name', with: 'Google Link'
-      fill_in 'Link url', with: google_url
+      click_on 'Make Answer'
     end
 
-    click_on 'Make Answer'
-    #save_and_open_page
-    within(:xpath, "//div[@class = 'answers']//div[@class = 'answer-links-list']") do
+    within(:xpath, "//div[contains(@class, 'answers')]//div[@class = 'answer-links-list']") do
       expect(page).to have_content 'Hello World'
       expect(page).to have_link 'Google Link', href: google_url
     end
