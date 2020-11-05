@@ -5,10 +5,9 @@ $(document).on('turbolinks:load', function(){
        var answerId = $(this).data('answerId');
        $('form#edit-answer-' + answerId).removeClass('hidden');
    })
-
-   $('.answer_votes_section').on('ajax:success', function(e) {
-    let result = e.detail[0].vote_result
-    let id = e.detail[0].record_id
-    $('.answer_' + id + '_votes_result').children().text(result)
-   })
+    $('.answer_votes_section').on('ajax:success', function(e) {
+      let result = e.detail[0].vote_result;
+      let id = e.detail[0].record_id;
+      $('.answer_' + id + '_votes_result').children().text(result);
+     })
 });

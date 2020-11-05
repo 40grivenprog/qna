@@ -1,0 +1,10 @@
+.comment_errors
+
+= form_with scope: :comment, url: make_comment_answer_path(answer) do |f|
+        = f.label :body, 'Body'
+        = f.text_area :body
+        br
+        = f.label :files
+        = f.file_field :files, multiple: true, direct: true
+        br
+        = f.submit 'Add comment'

@@ -19,7 +19,7 @@ module Voted
   private
 
   def votes_result_response
-    respond_to { |format| format.json { render json: {record_id: record.id, vote_result: record.calculate_score}}}
+    respond_to { |format| format.json { render json: {record_id: record.id, vote_result: record.calculate_score}} }
   end
 
   def model_klass

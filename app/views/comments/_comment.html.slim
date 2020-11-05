@@ -1,0 +1,7 @@
+= "email: #{comment.user.email}"
+br
+= "body: #{comment.body}"
+br
+- if comment.files.attached?
+    div class = "comment-#{comment.id}-files-list"
+      = render comment.files, current_user: current_user

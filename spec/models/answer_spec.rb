@@ -4,6 +4,7 @@ RSpec.describe Answer, type: :model do
   it_behaves_like 'attacheable'
   it_behaves_like 'linkable'
   it_behaves_like 'voteable'
+  it_behaves_like 'commentable'
 
   let(:question) { FactoryBot.create(:question)}
 

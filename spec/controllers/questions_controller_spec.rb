@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
   include_examples 'voted', :question
+  include_examples 'commented', :question
 
   describe 'GET #index' do
     let(:questions){ FactoryBot.create_list(:question, 3) }

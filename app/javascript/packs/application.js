@@ -12,7 +12,7 @@ require("jquery")
 require("utilities/cocoon")
 require("utilities/answers")
 require("utilities/questions")
-
+require("handlebars-loader")
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
