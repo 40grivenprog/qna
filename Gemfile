@@ -9,8 +9,11 @@ gem 'pry'
 gem 'devise'
 gem 'jquery-rails'
 gem "cocoon"
+gem 'omniauth'
+gem 'omniauth-github'
 
 gem 'bootstrap'
+gem 'octicons_helper'
 gem 'gon'
 gem 'handlebars-source'
 

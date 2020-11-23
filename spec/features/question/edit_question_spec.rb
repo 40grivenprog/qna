@@ -22,7 +22,7 @@ feature 'User can edit his question', %q{
 
       visit questions_path
 
-      click_on 'Edit'
+      click_on id: "edit-#{question.id}-question"
 
       within '.questions' do
         fill_in 'Your Question title', with: 'edited question title'
@@ -41,7 +41,7 @@ feature 'User can edit his question', %q{
 
       visit questions_path
 
-      click_on 'Edit'
+      click_on  id: "edit-#{question.id}-question"
 
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 
@@ -58,7 +58,7 @@ feature 'User can edit his question', %q{
 
       visit questions_path
 
-      click_on 'Edit'
+      click_on  id: "edit-#{question.id}-question"
       click_on 'Add one more link'
 
       fill_in 'Link name', with: 'Google Link'
@@ -76,7 +76,7 @@ feature 'User can edit his question', %q{
 
       visit questions_path
 
-      click_on 'Edit'
+      click_on  id: "edit-#{question.id}-question"
 
       within '.questions' do
         fill_in 'Your Question body', with: ''

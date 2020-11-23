@@ -21,7 +21,7 @@ feature 'User can add links to question', %q{
 
     click_on 'Add one more link'
 
-    within(:xpath, "//div[@class = 'nested-fields'][2]") do
+    within(:xpath, "(//div[@class = 'nested-fields'])[2]") do
       fill_in 'Link name', with: 'Google Link'
       fill_in 'Link url', with: google_url
     end

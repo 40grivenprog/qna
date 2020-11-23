@@ -1,2 +1,2 @@
-$('.notice').text('<%= flash[:notice] %>');
+$('.flash').html("<%= j render 'shared/flash' %>");
 $('.answers').html('<%= j render @answer.question.answers %>');

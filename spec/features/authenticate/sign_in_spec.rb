@@ -14,7 +14,8 @@ feature 'User can sign in', %q{
 
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
-    click_on 'Log in'
+
+    click_on 'Log In'
 
     expect(page).to have_content 'Signed in successfully'
   end
@@ -23,7 +24,8 @@ feature 'User can sign in', %q{
 
     fill_in 'Email', with: 'wrong@test.com'
     fill_in 'Password', with: '12345678'
-    click_on 'Log in'
+
+    click_on 'Log In'
 
     expect(page).to have_content 'Invalid Email or password.'
 
