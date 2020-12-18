@@ -13,7 +13,7 @@ feature 'User can edit his question', %q{
   scenario 'Unauthenticated can not edit question' do
     visit questions_path
 
-    expect(page).to_not have_link 'Edit'
+    expect(page).to_not have_link id: "edit-#{question.id}-question"
   end
 
   describe 'Authenticated user', js: true  do
@@ -90,7 +90,7 @@ feature 'User can edit his question', %q{
 
       visit questions_path
 
-      expect(page).to_not have_link 'Edit'
+      expect(page).to_not have_link id: "edit-#{question.id}-question"
     end
   end
 end

@@ -7,6 +7,7 @@ feature 'User can sign in', %q{
 } do
 
   given(:user) { FactoryBot.create(:user) }
+  given(:github_user) { FactoryBot.create(:user, email: 'github@user.com')}
 
   background { visit new_user_session_path }
 

@@ -28,7 +28,7 @@ feature 'User can add links to question', %q{
 
     click_on 'Ask'
 
-    within(:xpath, "//div[@class = 'question']//div[@class = 'question-links-list']") do
+    within(:xpath, "//div[contains(@class,'question')]//div[@class = 'question-links-list']") do
       expect(page).to have_content 'Hello World'
       expect(page).to have_link 'Google Link', href: google_url
     end

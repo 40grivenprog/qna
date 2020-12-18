@@ -1,19 +1,20 @@
 .answer-errors
 
 = form_with model: [@question, @answer] do |f|
-  p
-   = f.label :body
-   = f.text_area :body
-  p
-   = f.label :files
-   = f.file_field :files, multiple: true, direct_upload: true
-  p Links:
+  div class = 'form-group'
+    p
+     = f.label :body
+     = f.text_area :body, class: "form-control"
+    p
+     = f.label :files
+     = f.file_field :files, multiple: true, direct_upload: true
+    p Links:
 
-  #new-links
-    = f.fields_for :links do |link|
-      = render 'links/link_fields', f: link
-    .links
-      = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
+    #new-links
+      = f.fields_for :links do |link|
+        = render 'links/link_fields', f: link
+      .links
+        = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
 
-  p
-    = f.submit 'Make Answer'
+    p
+      = f.submit 'Make Answer', class: "btn btn-success"

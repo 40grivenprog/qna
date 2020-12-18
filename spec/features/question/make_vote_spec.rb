@@ -18,7 +18,7 @@ feature 'User can vote if question is good and he has the same problem', %q{
 
         visit question_path(question)
 
-        click_on 'vote for'
+        click_on id: "vote_for_question"
 
         within '.question_votes_result' do
           expect(page).to have_content(1)
@@ -30,7 +30,7 @@ feature 'User can vote if question is good and he has the same problem', %q{
 
         visit question_path(question)
 
-        click_on 'vote for'
+        click_on id: "vote_for_question"
 
         within '.question_votes_result' do
           expect(page).to have_content(0)
@@ -44,7 +44,7 @@ feature 'User can vote if question is good and he has the same problem', %q{
 
         visit question_path(question)
 
-        click_on 'vote for'
+        click_on id: "vote_for_question"
 
         within '.question_votes_result' do
           expect(page).to have_content(1)
@@ -58,7 +58,7 @@ feature 'User can vote if question is good and he has the same problem', %q{
 
         visit question_path(question)
 
-        click_on 'vote against'
+        click_on id: "vote_against_question"
 
         within '.question_votes_result' do
           expect(page).to have_content(-1)
@@ -70,7 +70,7 @@ feature 'User can vote if question is good and he has the same problem', %q{
 
         visit question_path(question)
 
-        click_on 'vote against'
+        click_on id: "vote_against_question"
 
         within '.question_votes_result' do
           expect(page).to have_content(0)
@@ -84,7 +84,7 @@ feature 'User can vote if question is good and he has the same problem', %q{
 
         visit question_path(question)
 
-        click_on 'vote against'
+        click_on id: "vote_against_question"
 
         within '.question_votes_result' do
           expect(page).to have_content(-1)
@@ -100,7 +100,7 @@ feature 'User can vote if question is good and he has the same problem', %q{
 
         visit question_path(question)
 
-        click_on 'cancel vote'
+        click_on id: "cancel_vote_question"
 
         within '.question_votes_result' do
           expect(page).to have_content(0)

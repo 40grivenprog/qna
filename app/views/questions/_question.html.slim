@@ -2,12 +2,10 @@ li class = 'list-group-item'
   div id="question-id-#{question.id}"
     = link_to question.title, question_path(question), style: "font-size: 20px; text-decoration: none"
     - if current_user && current_user.author_of?(question)
-      a rel= "nofollow" id = "delete-#{question.id}-question" data-method = "delete" href = "#{question_path(question)}"
-        p style = "position:absolute; top:0; right:1%;"
-          = octicon "x-circle", class: 'text-danger', height: "20"
-      a class = "edit-question-link" id = "edit-#{question.id}-question" data-question-id="#{question.id}" href = "#"
-        p style = "position:absolute; top:0; right:4%;"
-          = octicon "pencil", class: 'text-danger', height: "20"
+      p style = "position:absolute; top:0; right:1%;"
+        = link_to octicon("x-circle", class: 'text-danger', height: "25"), question_path(question), method: :delete, remote: true, id: "delete-#{question.id}-question"
+      p style = "position:absolute; top:0; right:4%;"
+        = link_to octicon("pencil", class: 'text-danger', height: "25"), "#", remote: true, class: "mr-2 edit-question-link",  data: { question_id: question.id }, id: "edit-#{question.id}-question"
       = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
         div class = 'form-group'
           = f.label :title, 'Your Question title'
@@ -23,6 +21,7 @@ li class = 'list-group-item'
             = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
           br
           = f.submit 'Save', class: 'btn btn-success'
+          = button_to 'Cancel', '#', class: 'btn btn-danger cancel-edit-question-link', data: { question_id: question.id }
     br
     p style = 'font: 10px' class="d-inline text-muted mr-2"
       = "#{question.user.email} #{question.created_at.to_date} #{question.answers.count} answers #{question.comments.count} comments"

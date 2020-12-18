@@ -1,5 +1,6 @@
 $('.question').find('.comment_errors').html("<%= render 'shared/errors', resource: @comment %>");
 
 <% if @comment.persisted? %>
+  $('.question_comment_title').text("Comments: <%= @comment.commentable.comments.count %>")
   $('.question_comments').append("<%= j render @comment %>")
 <% end %>
