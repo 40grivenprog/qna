@@ -14,13 +14,5 @@ class User < ApplicationRecord
   def author_of?(resource)
     id == resource.user_id
   end
-
-  def self.find_for_oauth(auth)
-    FindForOauthService.new(auth).call
-  end
-
-  def create_authorization(auth)
-    authorizations.create(provider: auth.provider, uid: auth.uid)
-  end
 end
 

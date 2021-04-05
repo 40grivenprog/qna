@@ -31,18 +31,4 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
-  describe 'class methods' do
-    context '.find_for_oauth' do
-      let!(:user) { FactoryBot.create(:user) }
-      let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
-      let(:service) { double('FindForOauthService') }
-
-      it 'calls FindForOauthService' do
-        expect(FindForOauthService).to receive(:new).with(auth).and_return(service)
-        expect(service).to receive(:call)
-        User.find_for_oauth(auth)
-      end
-    end
-  end
 end

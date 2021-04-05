@@ -62,6 +62,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
+    binding.pry
     params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url, :done, :_destroy], badge_attributes: [:title, :image])
   end
 end

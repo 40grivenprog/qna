@@ -11,7 +11,7 @@ class FindForOauthService
     email = auth.info[:email]
     user = User.where(email: email).first
     if user
-      user.create_authorization(auth)
+      create_authorization(user, auth)
     else
       user = email ? new_user_with_email(email) : nil
     end
@@ -23,7 +23,11 @@ class FindForOauthService
   def new_user_with_email(email)
     password = Devise.friendly_token[0, 20]
     user = User.create!(email: email, password: password, password_confirmation: password)
-    user.create_authorization(auth)
+    create_authorization(user, auth)
+    user
   end
 
+  def create_authorization(user, auth)
+    user.authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
 end
