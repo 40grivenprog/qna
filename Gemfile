@@ -19,6 +19,8 @@ gem 'gon'
 gem 'handlebars-source'
 gem 'capybara-email'
 gem "octokit", "~> 4.0"
+gem 'cancancan'
+
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server

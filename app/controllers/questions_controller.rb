@@ -6,6 +6,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   after_action :publish_question, only: [:create]
 
+  authorize_resource
+
   def index
     @questions = Question.all
     gon.push({currentUser: current_user})
@@ -34,18 +36,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author_of? @question
-      @question.update(question_params)
-    end
+    @question.update(question_params)
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      message = 'Destroyed succesfully'
-    else
-      message = 'You are not the author'
-    end
+    @question.destroy
+    message = 'Destroyed succesfully'
     redirect_to questions_path, notice: message
   end
 
@@ -62,7 +58,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    binding.pry
     params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url, :done, :_destroy], badge_attributes: [:title, :image])
   end
 end
