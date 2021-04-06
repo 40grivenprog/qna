@@ -16,7 +16,7 @@ feature 'User can delete a question if user is an author', %q{
 
       visit questions_path
 
-      click_on 'Delete'
+      click_on id: "delete-#{question.id}-question"
       expect(page).not_to have_content(question.title)
     end
 
@@ -25,13 +25,13 @@ feature 'User can delete a question if user is an author', %q{
 
       visit questions_path
 
-      expect(page).to_not have_selector(:link_or_button, 'Delete')
+      expect(page).to_not have_selector(:xpath, "//a[@id = 'delete-#{question.id}-question']")
     end
   end
 
   scenario 'user removes question' do
     visit questions_path
 
-    expect(page).to_not have_selector(:link_or_button, 'Delete')
+    expect(page).to_not have_selector(:xpath, "//a[@id = 'delete-#{question.id}-question']")
   end
 end

@@ -10,6 +10,7 @@ RSpec.describe User, type: :model do
     it { should have_many(:badges) }
     it { should have_many(:votes).dependent(:destroy) }
     it { should have_many(:comments).dependent(:destroy) }
+    it { should have_many(:authorizations).dependent(:destroy) }
   end
 
   describe 'validations' do

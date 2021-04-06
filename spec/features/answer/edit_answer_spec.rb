@@ -21,13 +21,11 @@ feature 'User can edit his answer', %q{
     scenario 'edits his answer' do
       sign_in user1
       visit question_path(question)
-
+      click_on 'Edit'
       within ".edit_answer_#{answer.id}" do
-        click_on 'Edit'
-
         fill_in 'Your answer', with: 'edited answer'
-
         click_on 'Save'
+
         expect(page).to_not have_selector 'textarea'
       end
 
@@ -40,9 +38,7 @@ feature 'User can edit his answer', %q{
       visit question_path(question)
 
       click_on 'Edit'
-
-
-      within '.answers' do
+      within ".edit_answer_#{answer.id}" do
         fill_in 'Your answer', with: 'abc'
 
         click_on 'Save'

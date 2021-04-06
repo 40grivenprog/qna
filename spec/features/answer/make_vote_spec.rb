@@ -20,7 +20,7 @@ feature 'User can vote if answer was usefull for him', %q{
         visit question_path(question)
 
         within '.answers' do
-          click_on 'vote for'
+          click_on id: "vote_for_#{answer.id}_answer"
 
           within ".answer_#{answer.id}_votes_result" do
             expect(page).to have_content(1)
@@ -34,7 +34,7 @@ feature 'User can vote if answer was usefull for him', %q{
         visit question_path(question)
 
         within '.answers' do
-          click_on 'vote for'
+          click_on id: "vote_for_#{answer.id}_answer"
 
           within ".answer_#{answer.id}_votes_result" do
             expect(page).to have_content(0)
@@ -42,7 +42,7 @@ feature 'User can vote if answer was usefull for him', %q{
         end
       end
 
-      scenario 'not his answer twice' do
+      scenario 'for his answer twice' do
         vote_for
 
         sign_in(not_author)
@@ -50,7 +50,7 @@ feature 'User can vote if answer was usefull for him', %q{
         visit question_path(question)
 
         within '.answers' do
-          click_on 'vote for'
+          click_on id: "vote_for_#{answer.id}_answer"
 
           within ".answer_#{answer.id}_votes_result" do
             expect(page).to have_content(1)
@@ -66,7 +66,7 @@ feature 'User can vote if answer was usefull for him', %q{
         visit question_path(question)
 
         within '.answers' do
-          click_on 'vote against'
+          click_on id: "vote_against_#{answer.id}_answer"
 
           within ".answer_#{answer.id}_votes_result" do
             expect(page).to have_content(-1)
@@ -80,7 +80,7 @@ feature 'User can vote if answer was usefull for him', %q{
         visit question_path(question)
 
         within '.answers' do
-          click_on 'vote against'
+          click_on id: "vote_against_#{answer.id}_answer"
 
           within ".answer_#{answer.id}_votes_result" do
             expect(page).to have_content(0)
@@ -88,7 +88,7 @@ feature 'User can vote if answer was usefull for him', %q{
         end
       end
 
-      scenario 'not his answer twice' do
+      scenario 'against his answer twice' do
         vote_against
 
         sign_in(not_author)
@@ -96,7 +96,7 @@ feature 'User can vote if answer was usefull for him', %q{
         visit question_path(question)
 
         within '.answers' do
-          click_on 'vote against'
+          click_on  id: "vote_against_#{answer.id}_answer"
 
           within ".answer_#{answer.id}_votes_result" do
             expect(page).to have_content(-1)
@@ -114,7 +114,7 @@ feature 'User can vote if answer was usefull for him', %q{
         visit question_path(question)
 
         within '.answers' do
-          click_on 'cancel vote'
+          click_on id: "cancel_vote_#{answer.id}_answer"
 
           within ".answer_#{answer.id}_votes_result" do
             expect(page).to have_content(0)

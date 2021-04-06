@@ -1,5 +1,7 @@
-p= link_to 'Ask question', new_question_path
 .question-errors
 
+h2 All questions
+
 .questions
-  = render @questions
+  ul class = 'list-group'
+    = render @questions

@@ -1,7 +1,5 @@
-let answer_id = <%= @comment.commentable.id %>;
-let node = $(".answer_" + answer_id  + "_comments");
+var node = $(".answer_" + <%= @comment.commentable.id %>  + "_comments");
 node.children(".comment_errors").html("<%= render 'shared/errors', resource: @comment %>");
-
 <% if @comment.persisted? %>
   node.append("<%= j render @comment %>")
 <% end %>

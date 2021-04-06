@@ -13,7 +13,7 @@ feature 'User can sign in', %q{
       sign_in(user)
 
       visit questions_path
-      click_on 'Ask question'
+      click_on 'Add question'
     end
 
     scenario 'asks a question' do
@@ -66,7 +66,6 @@ feature 'User can sign in', %q{
 
         Capybara.using_session('guest') do
           expect(page).to have_content 'Question'
-          expect(page).to have_content 'Question body'
         end
       end
     end
@@ -74,7 +73,7 @@ feature 'User can sign in', %q{
 
   scenario 'Unauthencated user asks a question' do
     visit questions_path
-    click_on 'Ask question'
+    click_on 'Add question'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end

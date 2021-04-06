@@ -1,23 +1,30 @@
-div id="question-id-#{question.id}"
-  h3= question.title
-  p= question.body
-  = link_to 'Show', question_path(question)
-  - if current_user && current_user.author_of?(question)
-      = button_to  'Delete', question_path(question), method: :delete
-      = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
-
+li class = 'list-group-item'
+  div id="question-id-#{question.id}"
+    = link_to question.title, question_path(question), style: "font-size: 20px; text-decoration: none"
+    - if current_user && current_user.author_of?(question)
+      p style = "position:absolute; top:0; right:1%;"
+        = link_to octicon("x-circle", class: 'text-danger', height: "25"), question_path(question), method: :delete, remote: true, id: "delete-#{question.id}-question"
+      p style = "position:absolute; top:0; right:4%;"
+        = link_to octicon("pencil", class: 'text-danger', height: "25"), "#", remote: true, class: "mr-2 edit-question-link",  data: { question_id: question.id }, id: "edit-#{question.id}-question"
       = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
-        = f.label :title, 'Your Question title'
-        = f.text_field :title
-        br
-        = f.label :body, 'Your Question body'
-        = f.text_area :body
-        br
-        = f.label :files
-        = f.file_field :files, multiple: true, direct: true
-        br
-        #new-links
-          = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
-        br
-        = f.submit 'Save'
-      br
+        div class = 'form-group'
+          = f.label :title, 'Your Question title'
+          = f.text_field :title, class: "form-control"
+          br
+          = f.label :body, 'Your Question body'
+          = f.text_area :body, class: "form-control"
+          br
+          = f.label :files
+          = f.file_field :files, multiple: true, direct: true
+          br
+          = f.fields_for :links do |link|
+            div class = 'form-group'
+              = render 'links/link_fields', f: link
+          #new-links
+            = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
+          br
+          = f.submit 'Save', class: 'btn btn-success'
+          = button_to 'Cancel', '#', class: 'btn btn-danger cancel-edit-question-link', data: { question_id: question.id }
+    br
+    p style = 'font: 10px' class="d-inline text-muted mr-2"
+      = "#{question.user.email} #{question.created_at.to_date} #{question.answers.count} answers #{question.comments.count} comments"

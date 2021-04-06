@@ -1,49 +1,58 @@
-div id = "answer-id-#{answer.id}"
+div id = "answer-id-#{answer.id} m-4"
   - if answer.persisted?
-      = answer.body
-      .answer_votes_section
-        = link_to 'vote for', vote_for_answer_path(answer), method: :post, remote: true, data: { type: :json }
+      div class = 'answer_body border-bottom'
+        p= answer.body
+        .answer-files-list
+          - unless answer.files.empty?
+            p Files:
+            = render answer.files, current_user: current_user
 
-        div class = 'answer_#{answer.id}_votes_result'
-          h3= answer.calculate_score
+        .answer-links-list
+          - unless answer.links.empty?
+            p Links:
+            = render answer.links, current_user: current_user
 
-        = link_to 'vote against', vote_against_answer_path(answer), method: :post, remote: true, data: { type: :json }
-        br
-        = link_to 'cancel vote', cancel_vote_answer_path(answer), method: :delete, remote: true, data: { type: :json }
+      div class = "answer_votes_section border-bottom"
+        div class = "answer_#{answer.id}_votes_result mb-2"
+          h3 style = "font-size: 20px"
+            = "Rating result: #{answer.calculate_score}"
 
-      div class = "answer_#{answer.id}_comments"
-        h3= 'Comments'
+        div class = "votes_svg mb-3"
+          = link_to octicon("thumbsup", class: 'text-danger', height: "25"), vote_for_answer_path(answer), method: :post, remote: true, data: { type: :json }, class: "mr-2", id: "vote_for_#{answer.id}_answer"
+          = link_to octicon("thumbsdown", class: 'text-danger', height: "25"), vote_against_answer_path(answer), method: :post, remote: true, data: { type: :json }, class: "mr-2", id: "vote_against_#{answer.id}_answer"
+          = link_to  octicon("x-circle", class: 'text-danger', height: "25"), cancel_vote_answer_path(answer), method: :delete, remote: true, data: { type: :json }, id: "cancel_vote_#{answer.id}_answer"
+
+      div class = "answer_#{answer.id}_comments border-bottom"
+        h3 style = "font-size: 20px"
+          = 'New Comment'
+        .answer_comments
         = render 'comments/new_answer_comment', answer: answer
+        h3 style = "font-size: 20px"
+            = 'Comments:'
         - unless answer.comments.empty?
-          = render answer.comments
-
-      .answer-files-list
-        - unless answer.files.empty?
-          p Files:
-          = render answer.files, current_user: current_user
-
-      .answer-links-list
-        - unless answer.links.empty?
-          p Links:
-          = render answer.links, current_user: current_user
+          ul class = 'list-group'
+            = render answer.comments
 
       br
-      - if current_user&.author_of?(answer.question)
-        = link_to 'Mark as best', mark_as_best_answer_path(answer), remote: true, method: :post
-      br
-      -if current_user&.author_of?(answer)
-          = button_to  'Delete', answer_path(answer), method: :delete, remote: true
-          div class = "edit_answer_#{answer.id}"
-            = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-            = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-              = f.label :body, 'Your answer'
-              = f.text_area :body
-              br
-              = f.label :files
-              = f.file_field :files, multiple: true, direct_upload: true
-              br
-              #new-links
-                = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
-              br
-              = f.submit 'Save'
-br
+      div class = 'btn-group answer_actions'
+        - if current_user&.author_of?(answer.question)
+          = link_to 'Mark as best', mark_as_best_answer_path(answer), remote: true, method: :post, class: "btn btn-primary"
+        -if current_user&.author_of?(answer)
+          = link_to 'Edit', '#', class: "edit-answer-link btn btn-warning", data: { answer_id: answer.id }, id: "edit-#{answer.id}-answer"
+          = button_to  'Delete', answer_path(answer), method: :delete, remote: true, class: "btn btn-danger"
+      div class = "edit_answer_#{answer.id}"
+        = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+                div class = 'form-group'
+                  p
+                    = f.label :body, 'Your answer'
+                    = f.text_area :body, class: "form-control"
+                  p
+                    = f.label :files
+                    = f.file_field :files, multiple: true, direct_upload: true
+                  p
+                  #new-links
+                    = link_to_add_association 'Add one more link', f, :links, partial: 'links/link_fields'
+                  p
+                  = f.submit 'Save', class: "btn btn-success"
+                  = button_to 'Cancel', '#', class: 'btn btn-danger cancel-edit-answer-link', data: { question_id: answer.id }
+  br

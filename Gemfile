@@ -9,11 +9,15 @@ gem 'pry'
 gem 'devise'
 gem 'jquery-rails'
 gem "cocoon"
-
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-vkontakte'
+gem "letter_opener", :group => :development
 gem 'bootstrap'
+gem 'octicons_helper'
 gem 'gon'
 gem 'handlebars-source'
-
+gem 'capybara-email'
 gem "octokit", "~> 4.0"
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'

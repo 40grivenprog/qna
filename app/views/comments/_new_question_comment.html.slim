@@ -1,10 +1,12 @@
 .comment_errors
 
 = form_with scope: :comment, url: make_comment_question_path(@question) do |f|
-        = f.label :body, 'Body'
-        = f.text_area :body
-        br
-        = f.label :files
-        = f.file_field :files, multiple: true, direct: true
-        br
-        = f.submit 'Add comment'
+  div class = 'form-group border-bottom'
+    p
+      = f.label :body, 'Body'
+      = f.text_area :body, class: "form-control"
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true, direct: true
+    p
+      = f.submit 'Add comment', class: "btn btn-warning"

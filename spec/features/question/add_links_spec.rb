@@ -21,14 +21,14 @@ feature 'User can add links to question', %q{
 
     click_on 'Add one more link'
 
-    within(:xpath, "//div[@class = 'nested-fields'][2]") do
+    within(:xpath, "(//div[@class = 'nested-fields'])[2]") do
       fill_in 'Link name', with: 'Google Link'
       fill_in 'Link url', with: google_url
     end
 
     click_on 'Ask'
 
-    within(:xpath, "//div[@class = 'question']//div[@class = 'question-links-list']") do
+    within(:xpath, "//div[contains(@class,'question')]//div[@class = 'question-links-list']") do
       expect(page).to have_content 'Hello World'
       expect(page).to have_link 'Google Link', href: google_url
     end

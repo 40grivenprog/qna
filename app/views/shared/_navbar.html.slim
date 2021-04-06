@@ -1,5 +1,14 @@
--  if user_signed_in?
-  = link_to 'Log Out', destroy_user_session_path, method: :delete
-  = link_to 'My Badges', badges_path
-- else
-  = link_to 'Log In', new_user_session_path
+nav class="navbar navbar-dark" style="background-color: #4F5A6E;"
+  = link_to 'Q&A', root_path, class: 'navbar-brand'
+  ul class="list-inline navbar-nav ml-auto"
+    div class="d-flex flex-row"
+      li class="nav-item mr-3"
+        = link_to 'Add question', new_question_path, class: 'btn btn-success'
+      -  if user_signed_in?
+        li class="nav-item mr-2"
+          = link_to 'My Badges', badges_path, class: 'nav-link'
+        li class="nav-item mr-3"
+          = link_to 'Log Out', destroy_user_session_path, method: :delete, class: 'nav-link'
+      - else
+        li class="nav-item mr-2"
+          = link_to 'Log In', new_user_session_path, class: 'nav-link'

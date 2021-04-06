@@ -1,43 +1,58 @@
-.question
-  h1= @question.title
-  h2= @question.body
-  .votes_section
-    = link_to 'vote for', vote_for_question_path(@question), method: :post, remote: true, data: { type: :json }
+div class = 'question mt-3'
+  div class = 'question_title border-bottom'
+    h1 style = "font-size: 30px"
+      = @question.title
+  div class = 'question_body border-bottom'
+    p= @question.body
+    - if @question.badge
+      p Badge:
+      = @question.badge&.title
+      = image_tag @question.badge&.image
 
-    .question_votes_result
-      h3= @question.calculate_score
+    - if @question.files.attached?
+      h3 style = "font-size: 20px"
+        = "Files:"
+      .question-files-list
+        = render @question.files
 
-    = link_to 'vote against', vote_against_question_path(@question), method: :post, remote: true, data: { type: :json }
-    br
-    = link_to 'cancel vote', cancel_vote_question_path(@question), method: :delete, remote: true, data: { type: :json }
-
-  .question_comments
-       h3= 'Comments'
-       = render 'comments/new_question_comment'
-       - unless @question.comments.empty?
-         = render @question.comments
-
-  - if @question.badge
-    p Badge:
-    = @question.badge&.title
-    = image_tag @question.badge&.image
-
-  - if @question.files.attached?
-    .question-files-list
-      = render @question.files
-
-  - unless @question.links.empty?
-    .question-links-list
-      p Links:
-      ul
+    - unless @question.links.empty?
+      h3 style = "font-size: 20px"
+        = "Links:"
+      .question-links-list
         = render @question.links
 
-  h3= 'New answer'
-  .new_answer
-    - if signed_in?
-      = render 'answers/new'
-    - else
-      p= 'Please sign in for make an answer'
-  h3= "Answers"
-  div class = "answers question_#{@question.id}_answers"
-    = render @question.answers.sort_by_best
+  div class = "votes_section border-bottom"
+    div class = "question_votes_result mb-2"
+      h3 style = "font-size: 20px"
+        = "Rating result: #{@question.calculate_score}"
+
+    div class = "votes_svg mb-3"
+      = link_to octicon("thumbsup", class: 'text-danger', height: "25"), vote_for_question_path(@question), method: :post, remote: true, data: { type: :json }, class: "mr-2", id: "vote_for_question"
+      = link_to octicon("thumbsdown", class: 'text-danger', height: "25"), vote_against_question_path(@question), method: :post, remote: true, data: { type: :json }, class: "mr-2", id: "vote_against_question"
+      = link_to  octicon("x-circle", class: 'text-danger', height: "25"), cancel_vote_question_path(@question), method: :delete, remote: true, data: { type: :json }, id: "cancel_vote_question"
+
+  .new_question_comment
+    h3 style = "font-size: 20px"
+      = 'New Comment'
+    .question_comments
+      = render 'comments/new_question_comment'
+      h3 style = "font-size: 20px" class = "question_comment_title"
+          = "Comments: #{@question.comments.count}"
+      - unless @question.comments.empty?
+        div class = "question-comments"
+          ul class = 'list-group'
+            = render @question.comments
+
+  div class="new_answer mt-3  border border-dark rounded"
+    div class = "m-4"
+      h3 style = "font-size: 20px"
+        = "New answer:"
+      - if signed_in?
+        = render 'answers/new'
+      - else
+        p= 'Please sign in for make an answer'
+  div class = "answers question_#{@question.id}_answers mt-3"
+    h3 style = "font-size: 20px"
+      = "Answers:"
+    ul class = 'list-group'
+      = render @question.answers.sort_by_best
