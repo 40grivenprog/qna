@@ -30,7 +30,10 @@ describe Ability, type: :model do
 
       it { should be_able_to :create, Question }
 
-      it { should be_able_to [:make_comment, :vote_for, :vote_against, :cancel_vote], Question}
+      it { should be_able_to [:make_comment], Question}
+
+      it { should be_able_to [:vote_for, :vote_against, :cancel_vote], FactoryBot.create(:question, user: other) }
+      it { should_not be_able_to [:vote_for, :vote_against, :cancel_vote], FactoryBot.create(:question, user: user) }
 
       it { should be_able_to :update, FactoryBot.create(:question, user: user) }
       it { should_not be_able_to :update, FactoryBot.create(:question, user: other) }
@@ -48,7 +51,10 @@ describe Ability, type: :model do
 
       it { should be_able_to :create, Answer }
 
-      it { should be_able_to [:make_comment, :vote_for, :vote_against, :cancel_vote], Answer }
+      it { should be_able_to [:make_comment], Answer }
+
+      it { should be_able_to [:vote_for, :vote_against, :cancel_vote], FactoryBot.create(:answer, user: other) }
+      it { should_not be_able_to [:vote_for, :vote_against, :cancel_vote], FactoryBot.create(:answer, user: user) }
 
       it { should be_able_to :update, FactoryBot.create(:answer, user: user) }
       it { should_not be_able_to :update, FactoryBot.create(:answer, user: other) }
