@@ -7,21 +7,19 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: %i[destroy update mark_as_best]
   after_action  :publish_answer, only: %i[create]
 
+  authorize_resource
+
   def create
     @answer = @question.answers.create(answer_params.merge(user: current_user))
   end
 
   def update
-    if current_user.author_of? @answer
-      @answer.update(answer_params)
-    end
+    @answer.update(answer_params)
   end
 
   def destroy
-    if current_user.author_of? @answer
-      @answer.destroy
-      flash[:notice] = 'Destroyed successfully'
-    end
+    @answer.destroy
+    flash[:notice] = 'Destroyed successfully'
   end
 
   def mark_as_best
