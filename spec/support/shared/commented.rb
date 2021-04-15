@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 shared_examples 'commented' do |record_name|
     describe 'POST #make_comment' do
     let(:resource) { FactoryBot.create(record_name, user: user) }

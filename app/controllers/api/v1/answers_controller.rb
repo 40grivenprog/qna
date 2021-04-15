@@ -36,7 +36,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
   private
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, links_attributes: [:name, :url])
   end
 
   def find_question
