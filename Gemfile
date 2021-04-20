@@ -20,6 +20,9 @@ gem 'handlebars-source'
 gem 'capybara-email'
 gem "octokit", "~> 4.0"
 gem 'cancancan'
+gem 'doorkeeper'
+gem 'active_model_serializers', '0.10.10'
+gem 'oj'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'

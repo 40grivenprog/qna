@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 shared_examples 'voted' do |record_name|
 
     describe 'POST #vote_for' do
