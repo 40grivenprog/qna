@@ -29,6 +29,8 @@ class Ability
     can [:vote_for, :vote_against, :cancel_vote], [Question, Answer] do |resource|
       resource.user_id != user.id
     end
+
+    can [:create, :destroy], Subscription
     can :destroy, Link, linkable: { user_id: user.id }
     can [:update, :destroy], [Question, Answer], user_id: user.id
     can :destroy, [Question, Answer], user_id: user.id

@@ -1,0 +1,4 @@
+New Questions
+<% @new_questions.each do |question| %>
+  <%= link_to(question.title, question_url(question)) %>
+<% end %>

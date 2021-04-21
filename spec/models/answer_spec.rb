@@ -66,4 +66,15 @@ RSpec.describe Answer, type: :model do
       end
     end
   end
+
+  describe 'callbacks' do
+    let(:user) { FactoryBot.create(:user) }
+    let(:question) { FactoryBot.create(:question, user: user) }
+    let(:answer) { FactoryBot.build(:answer, question: question) }
+
+    it 'sends notifications for users' do
+      expect(NotificationsMailer).to receive(:notifications).with(user, question).and_call_original
+      answer.save!
+    end
+  end
 end

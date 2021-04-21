@@ -73,5 +73,9 @@ describe Ability, type: :model do
       it { should be_able_to :destroy,  FactoryBot.create(:link, linkable: question)}
       it { should_not be_able_to :destroy,  FactoryBot.create(:link, linkable: other_user_question)}
     end
+
+    context 'subscription' do
+      it { should be_able_to [:create, :destroy], Subscription }
+    end
   end
 end

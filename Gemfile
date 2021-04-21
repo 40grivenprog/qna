@@ -23,6 +23,9 @@ gem 'cancancan'
 gem 'doorkeeper'
 gem 'active_model_serializers', '0.10.10'
 gem 'oj'
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'whenever', require: false
 
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'

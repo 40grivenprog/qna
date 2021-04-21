@@ -31,6 +31,13 @@ div class = 'question mt-3'
       = link_to octicon("thumbsdown", class: 'text-danger', height: "25"), vote_against_question_path(@question), method: :post, remote: true, data: { type: :json }, class: "mr-2", id: "vote_against_question"
       = link_to  octicon("x-circle", class: 'text-danger', height: "25"), cancel_vote_question_path(@question), method: :delete, remote: true, data: { type: :json }, id: "cancel_vote_question"
 
+  .subscribe_block
+    - unless subscription(@question)
+      = button_to 'Subscribe', question_subscriptions_path(@question), class: "btn btn-warning subscribe_button", remote: true
+    - else
+      = button_to 'Unubscribe', subscription_path(subscription(@question)), class: "btn btn-warning unsunscribe_button", method: :delete, remote: true
+
+
   .new_question_comment
     h3 style = "font-size: 20px"
       = 'New Comment'
