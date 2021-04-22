@@ -8,7 +8,6 @@ RSpec.describe DailyDigestJob, type: :job do
   end
 
   it 'calls DailyDigestService#send_digest' do
-    binding.pry
     expect(service).to receive(:send_digest)
     DailyDigestJob.perform_now
   end

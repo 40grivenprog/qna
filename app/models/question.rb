@@ -24,6 +24,6 @@ class Question < ApplicationRecord
   private
 
   def create_subscription
-    Subscription.create(user_id: self.user_id, question_id: self.id)
+    Subscription.create(user_id: user_id, question_id: id)
   end
 end

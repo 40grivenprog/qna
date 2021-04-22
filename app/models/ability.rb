@@ -30,7 +30,8 @@ class Ability
       resource.user_id != user.id
     end
 
-    can [:create, :destroy], Subscription
+    can :create, Subscription
+    can :destroy, Subscription,  user_id: user.id
     can :destroy, Link, linkable: { user_id: user.id }
     can [:update, :destroy], [Question, Answer], user_id: user.id
     can :destroy, [Question, Answer], user_id: user.id

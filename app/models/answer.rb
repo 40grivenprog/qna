@@ -25,9 +25,6 @@ class Answer < ApplicationRecord
   private
 
   def send_notifications
-    question = self.question
-    question.subscriptions.find_each do |subscription|
-      NotificationsMailer.notifications(subscription.user, question).deliver_later
-    end
+    NotificationsJob.perform_later(question)
   end
 end

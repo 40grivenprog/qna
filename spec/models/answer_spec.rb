@@ -73,7 +73,7 @@ RSpec.describe Answer, type: :model do
     let(:answer) { FactoryBot.build(:answer, question: question) }
 
     it 'sends notifications for users' do
-      expect(NotificationsMailer).to receive(:notifications).with(user, question).and_call_original
+      expect(NotificationsJob).to receive(:perform_later).with(question)
       answer.save!
     end
   end

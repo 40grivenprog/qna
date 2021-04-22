@@ -21,14 +21,26 @@ RSpec.describe User, type: :model do
 
   describe 'instance methods' do
     context 'User author_of? method' do
-      let(:question1){ FactoryBot.create(:question)}
+      let(:another_user_question){ FactoryBot.create(:question)}
 
       it 'returns true if user is an author' do
        expect(user).to be_author_of(question)
       end
 
       it 'returns false if user is an author' do
-       expect(user).to_not be_author_of(question1)
+       expect(user).to_not be_author_of(another_user_question)
+      end
+    end
+
+    context 'User has_subscription? method' do
+      let(:another_user_question) { FactoryBot.create(:question) }
+
+      it 'returns true if user has subscription to a question' do
+       expect(user.find_subscription(question)).to be_truthy
+      end
+
+      it 'returns false if user has not got subscription to a question' do
+       expect(user.find_subscription(another_user_question)).to be_falsey
       end
     end
   end

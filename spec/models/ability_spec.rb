@@ -75,7 +75,12 @@ describe Ability, type: :model do
     end
 
     context 'subscription' do
-      it { should be_able_to [:create, :destroy], Subscription }
+      let(:question) { FactoryBot.create(:question, user: user)}
+      let(:other_user_question) { FactoryBot.create(:question, user: other)}
+
+      it { should be_able_to :create, Subscription }
+      it { should be_able_to :destroy, question.subscriptions.first }
+      it { should_not be_able_to :destroy,  FactoryBot.create(:link, linkable: other_user_question.subscriptions.first) }
     end
   end
 end

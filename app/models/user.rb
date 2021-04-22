@@ -15,5 +15,9 @@ class User < ApplicationRecord
   def author_of?(resource)
     id == resource.user_id
   end
+
+  def find_subscription(question)
+    subscriptions&.find_by(question_id: question.id)
+  end
 end
 
