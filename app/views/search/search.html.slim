@@ -1,0 +1,28 @@
+- if @result.empty?
+  h2 No Result
+- else
+    h2= "#{@result.count} results for your search!"
+    ul class = 'list-group'
+      - @result.each do |object|
+        li class = 'list-group-item'
+          - if object.is_a?(Answer)
+            = link_to object.question.body, question_path(object.question), style: "font-size: 20px; text-decoration: none"
+            br
+            p style = 'font: 10px' class="d-inline text-muted mr-2"
+              = "#{object.class}: #{object.body}"
+          -elsif object.is_a?(Comment)
+            = object.commentable.body
+            br
+            p style = 'font: 10px' class="d-inline text-muted mr-2"
+              = "#{object.commentable.class} comment: #{object.body}"
+            br
+            p style = 'font: 10px' class="d-inline text-muted mr-2"
+              = "#{object.class}: #{object.body}"
+          - elsif object.is_a?(User)
+            = link_to object.email, root_path, style: "font-size: 20px; text-decoration: none"
+          - else
+            = link_to object.title, question_path(object), style: "font-size: 20px; text-decoration: none"
+            br
+            p style = 'font: 10px' class="d-inline text-muted mr-2"
+              = "#{object.body.truncate(10)}"
+

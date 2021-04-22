@@ -8,6 +8,7 @@ require 'sidekiq/web'
   use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks', confirmations: 'confirmations' }
   root to: "questions#index"
+  post 'search', action: :search, controller: 'search'
   concern :voteable do
     member do
       post :vote_for

@@ -8,7 +8,7 @@ feature 'User can delete a question if user is an author', %q{
 
   given(:user1) { FactoryBot.create(:user) }
   given(:user2) { FactoryBot.create(:user) }
-  given!(:question) { FactoryBot.create(:question, user: user1) }
+  given!(:question) { FactoryBot.create(:question, title: 'Test Title', user: user1) }
 
   describe 'Authenticated user' do
     scenario 'User removes his questions' do

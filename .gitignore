@@ -39,3 +39,6 @@ yarn-debug.log*
 
 #Ignore .env file
 /.env
+
+/config/development.sphinx.conf
+/db/sphinx
