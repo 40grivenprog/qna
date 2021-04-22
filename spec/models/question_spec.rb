@@ -8,6 +8,7 @@ RSpec.describe Question, type: :model do
 
   describe 'associations' do
     it { should belong_to(:user) }
+    it { should have_many(:subscriptions).dependent(:destroy) }
     it { should have_one(:badge).dependent(:destroy) }
     it { should have_many(:answers).dependent(:destroy) }
   end
@@ -28,6 +29,13 @@ RSpec.describe Question, type: :model do
       it 'returns best answer for question' do
         expect(question.best_answer).to eq(best_answer)
       end
+    end
+  end
+
+  describe 'callbacks' do
+    let(:question) { FactoryBot.create(:question) }
+    it 'creates new subscription after create' do
+      expect(question.subscriptions.size).to be 1
     end
   end
 
