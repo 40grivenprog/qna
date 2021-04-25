@@ -27,6 +27,11 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
 
+gem 'mysql2', '~> 0.4.10', :platform => :ruby
+gem 'thinking-sphinx', '~> 4.0'
+gem 'database_cleaner', '~> 1.8', '>= 1.8.3'
+
+
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server

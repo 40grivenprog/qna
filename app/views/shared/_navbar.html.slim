@@ -1,5 +1,10 @@
 nav class="navbar navbar-dark" style="background-color: #4F5A6E;"
   = link_to 'Q&A', root_path, class: 'navbar-brand'
+  = form_with url: search_path, local: true, class: 'form-inline' do |f|
+    = f.text_field :body, class: 'form-control'
+    = f.submit 'Find', class: 'btn btn-success'
+    = f.select :type, SearchService::TYPES
+
   ul class="list-inline navbar-nav ml-auto"
     div class="d-flex flex-row"
       li class="nav-item mr-3"
