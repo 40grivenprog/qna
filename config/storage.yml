@@ -8,8 +8,8 @@ local:
 
 amazon:
   service: S3
-  access_key_id: <%= ENV['S3_ACCESS'] %>
-  secret_access_key: <%= ENV['S3_SECRET'] %>
+  access_key_id: <%= Rails.application.credentials[Rails.env.to_sym][:amamzon][:access_key_id] %>
+  secret_access_key: <%= Rails.application.credentials[Rails.env.to_sym][:amamzon][:secret_access_key] %>
   region: us-east-1
   bucket: active-storage-rails-thinknatica
 
