@@ -3,7 +3,7 @@ class NotificationsJob < ApplicationJob
 
   def perform(question)
     question.subscriptions.find_each do |subscription|
-      NotificationsMailer.notifications(subscription.user, question).deliver_now
+      NotificationsMailer.notifications(subscription.user, question).deliver_later
     end
   end
 end

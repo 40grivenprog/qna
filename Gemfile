@@ -27,6 +27,7 @@ gem 'sidekiq'
 gem 'mini_racer'
 gem 'sinatra', require: false
 gem 'whenever', require: false
+gem 'unicorn'
 
 gem 'mysql2', '~> 0.4.10', :platform => :ruby
 gem 'thinking-sphinx', '~> 4.0'
@@ -81,6 +82,7 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test do
