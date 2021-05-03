@@ -36,6 +36,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    binding.pry
     @question.update(question_params)
   end
 

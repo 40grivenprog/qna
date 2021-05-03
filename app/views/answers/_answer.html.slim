@@ -1,9 +1,10 @@
-li class = 'list-group-item'
-  .div class = "answer-#{answer.id}-errors"
-  - if answer.best
-    div class = 'best_answer'
-      h3= 'BEST'
+- cache answer do
+  li class = 'list-group-item'
+    .div class = "answer-#{answer.id}-errors"
+    - if answer.best
+      div class = 'best_answer'
+        h3= 'BEST'
+        = render 'answers/answer_block', answer: answer, current_user: current_user
+        br
+    -else
       = render 'answers/answer_block', answer: answer, current_user: current_user
-      br
-  -else
-    = render 'answers/answer_block', answer: answer, current_user: current_user

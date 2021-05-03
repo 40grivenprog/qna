@@ -1,12 +1,13 @@
-div class = "link-#{link.id}"
-  - if link.is_gist?
-    = link.name
-    p Body:
-    - link.read_gist.each do |file, content|
-      p= content.content
+- cache collection_cache_key_for link do
+  div class = "link-#{link.id}"
+    - if link.is_gist?
+      = link.name
+      p Body:
+      - link.read_gist.each do |file, content|
+        p= content.content
 
-  - else
-    = link_to link.name, link.url, remote: true
+    - else
+      = link_to link.name, link.url, remote: true
 
-  - if current_user&.author_of? link.linkable
-    = link_to 'Delete', link_path(link), method: :delete, remote: true
+    - if current_user&.author_of? link.linkable
+      = link_to 'Delete', link_path(link), method: :delete, remote: true
