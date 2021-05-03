@@ -2,6 +2,7 @@
 
 h2 All questions
 
-.questions
-  ul class = 'list-group'
-    = render @questions
+- cache collection_cache_key_for :question do
+  .questions
+    ul class = 'list-group'
+      = render @questions
