@@ -28,6 +28,7 @@ gem 'mini_racer'
 gem 'sinatra', require: false
 gem 'whenever', require: false
 gem 'unicorn'
+gem 'redis-rails'
 
 gem 'mysql2', '~> 0.4.10', :platform => :ruby
 gem 'thinking-sphinx', '~> 4.0'

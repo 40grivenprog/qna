@@ -1,8 +1,9 @@
-li class = 'list-group-item w-50'
-  p style = "font-size: 15px;"
-    = comment.body
-  - if comment.files.attached?
-      div class = "comment-#{comment.id}-files-list"
-        = render comment.files, current_user: current_user
-  p style = 'font: 10px' class="d-inline text-muted mr-2"
-      = "#{comment.user.email}"
+- cache comment do
+  li class = 'list-group-item w-50'
+    p style = "font-size: 15px;"
+      = comment.body
+    - if comment.files.attached?
+        div class = "comment-#{comment.id}-files-list"
+          = render comment.files, current_user: current_user
+    p style = 'font: 10px' class="d-inline text-muted mr-2"
+        = "#{comment.user.email}"
